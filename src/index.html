@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+    <div id="<%= htmlWebpackPlugin.options.namespace %>"></div>
+    <script src="./assets/libs/require.js"></script>
+    <script src="./assets/libs/react.js"></script>
+    <script src="./assets/libs/react-dom.js"></script>
+    <script src="./assets/libs/react-router-dom.js"></script>
+    <script>
+      require.config({
+        baseUrl: '.',
+        paths: {
+            plugins: './plugins',
+        }
+      });
+      require(['<%= htmlWebpackPlugin.options.namespace %>'], function () {
+        require(['<%= htmlWebpackPlugin.options.namespace %>'], function (module) {
+          module.default('<%= htmlWebpackPlugin.options.namespace %>');
+        })
+      });
+    </script>
+</body>
+</html>
