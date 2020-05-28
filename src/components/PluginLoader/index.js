@@ -1,53 +1,70 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import ReactDOM from "react-dom";
 
 class LazyLoader extends React.Component {
   constructor() {
     super();
+    this.mountChild = () => null;
     this.state = {
-      render: null,
-      component: null,
+      mount: null,
+      loaded: false,
+      err: false,
     };
   }
   componentDidMount() {
     const { path } = this.props;
-    window['require']([`plugins/${path}/index`], () => {
-      window['require']([path], module => {
-        const mountedId = path.replace(/\//g, '-');
+    window['require']([`plugins/${path}/index`], module => {
+      if (module.default) {
+        this.mountChild = module.default;
         this.setState({
-          render: module.default ? () => module.default(mountedId) : null,
-          component: () => (
-            <div id={mountedId}></div>
-          ),
+          loaded: true,
+          err: true,
         })
-      });  
-    }, err => {
+      }
+    }, () => {
       this.setState({
-        component: () => {
-          return (
-            <div>没有找到插件</div>
-          );
-        },
+        err: true,
+        loaded: true
       });
     });
   }
-  componentDidUpdate(preProps, preState) {
-    if (this.state.render) {
-      this.state.render();
+  componentDidUpdate() {
+    if (this.mountChild) {
+      const { hash } = location;
+      this.mountChild(this.mountedDom, hash.replace('#', ''));
+      this.mountedParent.appendChild(this.mountedDom);
+      this.mountChild = null;
     }
   }
+
+  getMountDom = dom => {
+    if (dom) {
+      this.mountedParent = dom;
+      const div = document.createElement('div');
+      div.id="d123";
+      this.mountedDom = div;
+    }
+  }
+  componentWillUnmount() {
+    setTimeout(() => {
+      ReactDOM.unmountComponentAtNode(this.mountedDom);
+      this.mountedDom.parentElement.removeChild(this.mountedDom);
+      this.mountedDom = null;
+    });
+  }
+
   render() {
-    const Component = this.state.component;
-    const { props } = this;
+    const { loaded, err } = this.state;
     return (
-      <Fragment>
+      <div ref={this.getMountDom}>
         {
-          Component ? <Component {...props}/> : <div>Loading....</div>
+          loaded ? (err && <div>没有找到插件，请检查配置</div> || null) : <div>Loading...</div>
         }
-      </Fragment>
+      </div>
     );
   }
 }
 
-export default (path) => {
-  return () => <LazyLoader path={path} />;
+export default (path, baseUrl) => {
+  return () => <LazyLoader path={path} baseUrl={baseUrl} />;
 }

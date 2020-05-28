@@ -1,7 +1,29 @@
 {
-    "presets": ["@babel/preset-react"],
-    // "plugins": [
-    //     ["import", { "libraryName": "antd", "libraryDirectory": "lib"}, "ant"],
-    //     ["import", { "libraryName": "antd-mobile", "libraryDirectory": "lib"}, "antd-mobile"]
-    // ]
+  "env": {
+    "production": {
+      "plugins": [
+        ["transform-react-remove-prop-types", {
+          "mode": "wrap",
+          "ignoreFilenames": ["node_modules"]
+        }]
+      ]
+    }
+  },
+  "presets": [
+    "@babel/preset-react",
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "chrome": "58",
+          "ie": "11"
+        }
+      }
+    ]
+  ],
+   "plugins": [
+     ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css"}, "antd"],
+     ["@babel/plugin-proposal-decorators", { "legacy": true }],
+     ["@babel/plugin-proposal-class-properties", { "loose": true }]
+   ]
 }

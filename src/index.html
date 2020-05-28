@@ -4,25 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <link href="https://libs.cdnjs.net/animate.css/4.1.0/animate.min.css" rel="stylesheet">
 </head>
 <body>
     <div id="<%= htmlWebpackPlugin.options.namespace %>"></div>
-    <script src="./assets/libs/require.js"></script>
-    <script src="./assets/libs/react.js"></script>
-    <script src="./assets/libs/react-dom.js"></script>
-    <script src="./assets/libs/react-router-dom.js"></script>
+    <script src="http://apps.bdimg.com/libs/require.js/2.1.11/require.min.js"></script>
+<!--    <script src="./react.js"></script>-->
+<!--    <script src="./react-dom.js"></script>-->
+<!--    <script src="./intl.js"></script>-->
+<!--    <script src="./dva.js"></script>-->
     <script>
-      require.config({
-        baseUrl: '.',
-        paths: {
-            plugins: './plugins',
-        }
-      });
-      require(['<%= htmlWebpackPlugin.options.namespace %>'], function () {
-        require(['<%= htmlWebpackPlugin.options.namespace %>'], function (module) {
-          module.default('<%= htmlWebpackPlugin.options.namespace %>');
+        var ele = document.getElementById('<%= htmlWebpackPlugin.options.namespace %>');
+        require.config({
+            baseUrl: '.',
+        });
+        require(['index'], function (module) {
+            module.default(ele);
         })
-      });
     </script>
 </body>
 </html>

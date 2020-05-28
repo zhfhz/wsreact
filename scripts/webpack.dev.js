@@ -1,36 +1,62 @@
-const webpack = require('webpack');
 const webpackBase = require('./webpack.base');
-
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const devConfig = {
     devtool: 'source-map',
+    mode: 'development'
 }
+const config = Object.assign({}, webpackBase, {
+    ...devConfig,
+});
 
-module.exports = () => {
-    webpack(
-        Object.assign(webpackBase[0], {
-            ...devConfig
-        }),
-        (err,stats)=>{
-            if(err || stats.hasErrors()){
-                console.log(stats);
-                console.log("构建依赖包出错！");
-            }else{
-                console.log("构建依赖包成功！");
-            }
-        }
-    );
-    webpack(
-        Object.assign(webpackBase[1], {
-            ...devConfig
-        }),
-        (err,stats)=>{
-            if(err || stats.hasErrors()){
-                console.log(stats);
-                console.log("构建业务代码出错！");
-            }else{
-                console.log("构建业务代码成功！");
-            }
-        }
-    );
-}
+module.exports = [
+    Object.assign({}, config, {
+        entry: {
+            react: 'react',
+        },
+        plugins: [
+            new CleanWebpackPlugin(),
+            ...webpackBase.plugins,
+        ],
+        externals: {},
+        output: {
+            ...webpackBase.output,
+            // library: '[name]'
+        },
+    }),
+    Object.assign({}, config, {
+        entry: {
+            dom: 'react-dom'
+        },
+        plugins: [
+            ...webpackBase.plugins,
+        ],
+        externals: {
+            react: 'react',
+        },
+        output: {
+            ...webpackBase.output,
+            // library: '[name]'
+        },
+    }),
+    Object.assign({}, config, {
+        entry: {
+            moment: ['moment/locale/zh-cn', 'moment/locale/zh-tw', 'moment/locale/en-gb', 'moment'],
+            dva: 'dva',
+            intl: 'react-intl-universal',
+
+        },
+        plugins: [
+            ...webpackBase.plugins,
+        ],
+        externals: {
+            'react-dom': 'dom',
+            'react': 'react'
+        },
+        output: {
+            ...webpackBase.output,
+            // library: '[name]'
+        },
+    }),
+    config
+];
