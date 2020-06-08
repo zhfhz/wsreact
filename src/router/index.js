@@ -7,12 +7,13 @@ import PropTypes from 'prop-types';
 dynamic.setDefaultLoadingComponent(() => <Spin indicator={<div>Loading...</div>} />);
 
 const Router = ({ routes, basename = '' }) => {
-    console.log(`${basename}`);
+    console.log(routes);
   return (
       <Switch>
           {
               routes.map(({ path, component: Component, pages, ...rest }) => {
                   if (pages) {
+                      console.log(`${basename}${path}`);
                       return (
                           <Route
                               key={`${basename}${path}`}
@@ -22,17 +23,27 @@ const Router = ({ routes, basename = '' }) => {
                                       <Component
                                           {...props}
                                       >
-                                          {
-                                              Router({ routes: pages, basename: `${basename}${path}` })
-                                          }
+                                          <Router routes={pages} basename={`${basename}${path}/`} />
                                       </Component>
                                   );
                               }}
                               path={`${basename}${path}`}
+                              exact={false}
                           />
                       );
                   } else {
-                      return (<Route key={`${basename}${path}`} {...rest} path={`${basename}${path}`} component={Component} />);
+                      console.log(`${basename}${path}`);
+                      // 处理404
+                      const pathStr = path ? `${basename}${path}` : '';
+                      return (
+                          <Route
+                              exact={true}
+                              key={pathStr}
+                              {...rest}
+                              path={pathStr}
+                              component={Component}
+                          />
+                      );
                   }
               })
           }

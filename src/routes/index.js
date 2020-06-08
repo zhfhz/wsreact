@@ -1,4 +1,3 @@
-import React from 'react';
 import PluginLoader from '@components/PluginLoader';
 import configs from '@routes/routes';
 

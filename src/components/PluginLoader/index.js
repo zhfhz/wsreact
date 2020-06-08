@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from "react-dom";
 
 class LazyLoader extends React.Component {
-  constructor() {
-    super();
+  constructor(args) {
+    super(args);
     this.mountChild = () => null;
     this.state = {
       mount: null,

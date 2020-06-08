@@ -9,15 +9,15 @@ export default [
     component: dynamicWrapper(app, [], import('@layouts/BaseLayout')),
     pages: [
       {
-        path: '/about',
+        path: 'about',
         component: dynamicWrapper(app, [import('@pages/About/model')], import('@pages/About')),
       },
       {
-        path: '/demo',
+        path: 'demo',
         component: dynamicWrapper(app, [import('@pages/PingUseRate/model')], import('@pages/PingUseRate')),
       },
       {
-        path: '/plugin/:module',
+        path: 'mount/:module',
         component: PluginLoader(),
       },
       {
