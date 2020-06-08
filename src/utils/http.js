@@ -1,13 +1,19 @@
 import axios from 'axios';
 
-const axiosInstance = axios.create({});
+const baseURL = 'http://localhost:8080/src/';
+const axiosInstance = axios.create({
+    baseURL
+});
 
 const errorHandler = (res) => {
-    if (res.result.code != 0) {
+    const data = res.data;
+    if (data.result.code != 0) {
         return null;
     }
-    return res.result;
+    return data;
 };
+
+
 
 export const get = function() {
    return axiosInstance.get.apply(axiosInstance, arguments).then(errorHandler);

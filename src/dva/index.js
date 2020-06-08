@@ -13,6 +13,8 @@ files
     .forEach(module => app.model(module.default));
 
 
+// 页面model路由加载时动态载入
+
 // files = require.context('../pages', true, /model\.js$/);
 // files
 //     .keys()

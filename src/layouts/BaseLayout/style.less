@@ -1,1 +1,93 @@
-@import "~@assets/css/common.less";
+.BaseLayout {
+  .logo {
+    font-size: 20px;
+    line-height: @layout-header-height;
+    height: @layout-header-height;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    background-color: @layout-header-background;
+    a {
+      line-height: @layout-header-height;
+      color: @layout-header-color;
+      display: inline-block;
+      &:active {
+        color: @layout-header-color;
+      }
+      &:link {
+        color: @layout-header-color;
+      }
+      &:visited {
+        color: @layout-header-color;
+      }
+      img {
+        vertical-align: text-top;
+      }
+      span {
+        margin-left: 10px;
+        vertical-align: text-top;
+        height: 30px;
+        line-height: 30px;
+        display: inline-block;
+      }
+    }
+    img {
+      width: 30px;
+      height: 30px;
+    }
+    .collapsed {
+      display: none;
+    }
+  }
+  .trigger {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .toolBar {
+    padding: 0 12px;
+    float: left;
+    height: 100%;
+    vertical-align: top;
+    &>* {
+      margin-top: @layout-header-height / 2;
+      transform: translateY(-50%);
+      vertical-align: top;
+      margin-right: 10px;
+    }
+  }
+  .systemBar {
+    padding: 0 12px;
+    float: right;
+    height: 100%;
+    vertical-align: top;
+    &>* {
+      margin-top: @layout-header-height / 2;
+      transform: translateY(-50%);
+      vertical-align: top;
+      margin-left: 10px;
+    }
+  }
+  :global {
+    .@{ant-prefix}-menu-inline-collapsed {
+      width: 60px;
+    }
+    .@{ant-prefix}-menu {
+      background-color: transparent;
+    }
+    .@{ant-prefix}-menu:not(.@{ant-prefix}-menu-horizontal) .@{ant-prefix}-menu-item-selected {
+      background-color: #C3D6ED;
+    }
+    .@{ant-prefix}-menu-inline-collapsed>.@{ant-prefix}-menu-item,
+    .@{ant-prefix}-menu-inline-collapsed>.@{ant-prefix}-menu-item-group>.@{ant-prefix}-menu-item-group-list>.core-menu-item,
+    .@{ant-prefix}-menu-inline-collapsed>.@{ant-prefix}-menu-item-group>.@{ant-prefix}-menu-item-group-list>.core-menu-submenu>.@{ant-prefix}-menu-submenu-title,
+    .@{ant-prefix}-menu-inline-collapsed>.@{ant-prefix}-menu-submenu>.@{ant-prefix}-menu-submenu-title {
+      padding: 0 22px;
+    }
+    .@{ant-prefix}-layout-footer {
+      height: 60px;
+      line-height: 60px;
+      box-sizing: border-box;
+      border-top: 1px solid #dee5e7;
+    }
+  }
+}

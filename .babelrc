@@ -1,29 +1,26 @@
 {
-  "env": {
-    "production": {
-      "plugins": [
-        ["transform-react-remove-prop-types", {
-          "mode": "wrap",
-          "ignoreFilenames": ["node_modules"]
-        }]
-      ]
-    }
-  },
   "presets": [
     "@babel/preset-react",
     [
       "@babel/preset-env",
       {
         "targets": {
-          "chrome": "58",
-          "ie": "11"
+          "ie": 11,
+          "edge": "17",
+          "firefox": "60",
+          "chrome": "67",
+          "safari": "11.1"
         }
       }
     ]
   ],
+  "compact": false,
    "plugins": [
-     ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": "css"}, "antd"],
      ["@babel/plugin-proposal-decorators", { "legacy": true }],
-     ["@babel/plugin-proposal-class-properties", { "loose": true }]
+     ["@babel/plugin-proposal-class-properties", { "loose": true }],
+     ["import", { "libraryName": "antd",
+       "libraryDirectory": "es",
+       "style": true
+     }]
    ]
 }

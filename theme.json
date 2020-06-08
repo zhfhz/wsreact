@@ -1,0 +1,11 @@
+{
+  "layout-header-height": "50px",
+  "layout-header-background": "#085399",
+  "layout-sider-background": "#d8ebff",
+  "layout-header-color": "white",
+  "layout-footer-padding": "0 16px",
+  "btn-primary-bg": "#23ad44",
+  "border-radius-base": "4px",
+  "input-border-color": "#23b7e5",
+  "picker-border-color": "#23b7e5"
+}

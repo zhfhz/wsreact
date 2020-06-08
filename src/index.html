@@ -4,21 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= htmlWebpackPlugin.options.title %></title>
-  <link href="https://libs.cdnjs.net/animate.css/4.1.0/animate.min.css" rel="stylesheet">
+  <link href="https://libs.cdnjs.net/animate.css/4.1.0/animate.css" rel="stylesheet">
 </head>
 <body>
-    <div id="<%= htmlWebpackPlugin.options.namespace %>"></div>
+    <div id="<%= htmlWebpackPlugin.options.namespace %>">Loading...</div>
     <script src="http://apps.bdimg.com/libs/require.js/2.1.11/require.min.js"></script>
-<!--    <script src="./react.js"></script>-->
-<!--    <script src="./react-dom.js"></script>-->
-<!--    <script src="./intl.js"></script>-->
-<!--    <script src="./dva.js"></script>-->
     <script>
         var ele = document.getElementById('<%= htmlWebpackPlugin.options.namespace %>');
         require.config({
             baseUrl: '.',
+            waitSeconds: 0
         });
         require(['index'], function (module) {
+            ele.innerHTML="";
             module.default(ele);
         })
     </script>

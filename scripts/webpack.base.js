@@ -1,8 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const packageConfig = require('../package.json');
-// const uglifyjs = require('uglifyjs-webpack-plugin');
+const themeConfig = require('../theme.json');
 
 const distDirStr = path.resolve(__dirname, '../dist/');
 
@@ -41,20 +40,84 @@ const webpackTask = {
     module: {
         rules: [
             {
-                test: /\.js|jsx$/,
+                test: /\.(js|jsx)$/,
                 loader: 'babel-loader',
-                exclude: [/node_modules/, /\.json$/],
+                exclude: [/\.json$/, /node_modules/],
             },
             {
-                test: /\.less$/,
+                test: /\.(less|css)/,
+                exclude: [/node_modules/],
                 use: [
-                    'css-loader',
-                    'less-loader',
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 2,
+                            modules: {
+                                localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                            },
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: (loader) =>  [
+                                require('postcss-import')({ root: loader.resourcePath }),
+                                require('postcss-preset-env')(),
+                                // require('autoprefixer')(),
+                                require('cssnano')()
+                            ]
+                        }
+                    },
+                    {
+                        loader: 'less-loader',
+                        options: {
+                            lessOptions: {
+                                modifyVars: {
+                                    ...themeConfig,
+                                    'ant-prefix': `${packageConfig.name}`,
+                                },
+                                javascriptEnabled: true,
+                            },
+                        }
+                    },
                 ]
             },
             {
-                test: /\.css$/,
-                loader: 'css-loader',
+                test: /\.(less|css)/,
+                include: [/node_modules/],
+                use: [
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 2
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: (loader) =>  [
+                                require('postcss-import')({ root: loader.resourcePath }),
+                                require('postcss-preset-env')(),
+                                // require('autoprefixer')(),
+                                require('cssnano')()
+                            ]
+                        }
+                    },
+                    {
+                        loader: 'less-loader',
+                        options: {
+                            lessOptions: {
+                                modifyVars: {
+                                    ...themeConfig,
+                                    'ant-prefix': `${packageConfig.name}`,
+                                },
+                                javascriptEnabled: true,
+                            },
+                        }
+                    },
+                ]
             },
             {
                 test: /\.(png|jpg|gif|svg)$/,
@@ -66,12 +129,6 @@ const webpackTask = {
         ],
     },
     plugins: [
-        new HtmlWebpackPlugin({
-            namespace: packageConfig.name,
-            title: 'react测试',
-            template: 'src/index.html',
-            inject: false,
-        }),
         // new uglifyjs(),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],

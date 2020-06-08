@@ -1,29 +1,46 @@
 import React from 'react'
-import { HashRouter, Route, Switch } from 'dva/router';
+import { Route, Switch } from 'dva/router';
+import { Spin  } from 'antd';
 import dynamic from 'dva/dynamic';
 import PropTypes from 'prop-types';
-import getRoutes from '@routes';
 
-dynamic.setDefaultLoadingComponent(() => <div>Loading...1</div>);
+dynamic.setDefaultLoadingComponent(() => <Spin indicator={<div>Loading...</div>} />);
 
-const routes = getRoutes([{
-  path: '/test',
-  type: 'plugins',
-  component: 'test',
-}]);
-const router = ({ base = '' }) => {
+const Router = ({ routes, basename = '' }) => {
+    console.log(`${basename}`);
   return (
-      <HashRouter basename={`${base}/`}>
-          <Switch>
-              {
-                  routes.map((route) => (<Route key={route.path} path={route.path} component={route.component} />))
-              }
-          </Switch>
-      </HashRouter>
+      <Switch>
+          {
+              routes.map(({ path, component: Component, pages, ...rest }) => {
+                  if (pages) {
+                      return (
+                          <Route
+                              key={`${basename}${path}`}
+                              {...rest}
+                              component={props => {
+                                  return (
+                                      <Component
+                                          {...props}
+                                      >
+                                          {
+                                              Router({ routes: pages, basename: `${basename}${path}` })
+                                          }
+                                      </Component>
+                                  );
+                              }}
+                              path={`${basename}${path}`}
+                          />
+                      );
+                  } else {
+                      return (<Route key={`${basename}${path}`} {...rest} path={`${basename}${path}`} component={Component} />);
+                  }
+              })
+          }
+      </Switch>
   );
 };
-router.propTypes = {
+Router.propTypes = {
     base: PropTypes.string,
 };
 
-export default router;
+export default Router;

@@ -1,5 +1,7 @@
 const webpackBase = require('./webpack.base');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const packageConfig = require('../package.json');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const devConfig = {
     devtool: 'source-map',
@@ -58,5 +60,20 @@ module.exports = [
             // library: '[name]'
         },
     }),
-    config
+    Object.assign({}, config, {
+        plugins: [
+            new HtmlWebpackPlugin({
+                namespace: packageConfig.name,
+                title: 'react测试',
+                template: 'src/index.html',
+                favicon: 'src/assets/image/logo.png',
+                inject: 'head',
+                excludeChunks: ['index']
+            }),
+            ...config.plugins,
+        ],
+        optimization: {
+            minimize: false
+        },
+    })
 ];

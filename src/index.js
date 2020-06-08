@@ -6,28 +6,27 @@ import 'react-app-polyfill/stable';
 import Router from '@router';
 import app from '@/dva';
 import locales from "@locales";
+import '@assets/css/common.less';
+import packageConfig from '../package.json';
+import getRoutes from "@routes/index";
+import { HashRouter} from "dva/router";
 
-const SUPPOER_LOCALES = [
-    {
-        name: "English",
-        value: "en-US"
-    },
-    {
-        name: "繁體中文",
-        value: "zh-TW"
-    },
-    {
-        name: "简体中文",
-        value: "zh-CN"
-    }
-]
+const routes = getRoutes();
 
 class App extends React.Component {
     state = {
         currentLocale: '',
     }
+    constructor() {
+        super();
+        localStorage.setItem('global_transition_appear', 'true');
+    }
     componentDidMount() {
         this.loadLocales();
+    }
+
+    loadMenus() {
+
     }
 
     loadLocales() {
@@ -36,38 +35,38 @@ class App extends React.Component {
             urlLocaleKey: "lang",
             cookieLocaleKey: "lang",
         });
-        if (!currentLocale) {
-            currentLocale = SUPPOER_LOCALES[0].value;
+
+
+        if (!locales.site[currentLocale]) {
+            currentLocale = 'zh-CN';
+            location.search = `?lang=${currentLocale}`;
+            return;
         }
+        // moment国际化
+        locales.moment[currentLocale]();
+        // locales.site 是站点国际化词条
+        // locales.antd 是antd 组件国际化词条
         intl.init({
             currentLocale,
             locales: locales.site,
         });
-        // moment国际化
-        locales.moment[currentLocale]();
         this.setState({
             currentLocale
         });
     }
 
-    onSelectLocale(e) {
-        let lang = e.target.value;
-        location.search = `?lang=${lang}`;
-    }
-
     render() {
-        const { props, state: { currentLocale } } = this;
+        const { props: { currentLocale, basename } } = this;
         return (
-            <ConfigProvider locale={locales.antd[currentLocale]}>
-                <select onChange={this.onSelectLocale} defaultValue={currentLocale}>
-                    <option value="" disabled>Change Language</option>
+            <ConfigProvider
+                locale={locales.antd[currentLocale]}
+                prefixCls={packageConfig.name}
+            >
+                <HashRouter basename={`${basename}`}>
                     {
-                        SUPPOER_LOCALES.map(locale => (
-                            <option key={locale.value} value={locale.value}>{locale.name}</option>
-                        ))
+                        Router({ routes, basename: '' })
                     }
-                </select>
-                <Router { ...props }/>
+                </HashRouter>
             </ConfigProvider>
         );
     }

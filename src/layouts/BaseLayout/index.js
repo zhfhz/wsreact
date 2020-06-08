@@ -1,60 +1,95 @@
 import { Layout, Menu } from 'antd';
+import React from "react";
+import { connect } from "dva";
+import intl from 'react-intl-universal';
 import {
     MenuUnfoldOutlined,
-    MenuFoldOutlined,
-    UserOutlined,
-    VideoCameraOutlined,
-    UploadOutlined,
+    MenuFoldOutlined
 } from '@ant-design/icons';
+import logoImg from '@assets/image/logo.png';
+import styles from './style.less';
+import Transition from "@components/Transition";
+import LocaleSelect from '@components/LocaleSelect';
+import NavMenu from '@components/NavMenu';
+import UserMenu from '@components/UserMenu';
 
-const { Header, Sider, Content } = Layout;
+const { Header, Sider, Content, Footer } = Layout;
 
 export default
+@connect(({ global }) => ({
+    ...global,
+}), (dispatch) => ({
+    onSelectLocale: payload => dispatch({
+        type: 'global/onSelectLocale',
+        payload
+    }),
+    siderTrigger: () => dispatch({
+        type: 'global/siderTrigger',
+    })
+}))
 class BaseLayout extends React.Component {
-    state = {
-        collapsed: false,
-    };
 
-    toggle = () => {
-        this.setState({
-            collapsed: !this.state.collapsed,
-        });
-    };
 
     render() {
+        const {
+            navMenus,
+            locales,
+            location: { pathname },
+            children,
+            siderCollapsed,
+            onSelectLocale,
+            siderTrigger } = this.props;
+        const langArr= location.search.match(/lang=([^&]+)/);
+        const currentLocale = langArr && langArr[1];
         return (
-            <Layout>
-                <Sider trigger={null} collapsible collapsed={this.state.collapsed}>
-                    <div className="logo" />
-                    <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-                        <Menu.Item key="1" icon={<UserOutlined />}>
-                            nav 1
-                        </Menu.Item>
-                        <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-                            nav 2
-                        </Menu.Item>
-                        <Menu.Item key="3" icon={<UploadOutlined />}>
-                            nav 3
-                        </Menu.Item>
-                    </Menu>
+            <Layout className={styles.BaseLayout}>
+                <Sider
+                    trigger={null}
+                    collapsible
+                    collapsedWidth="60"
+                    collapsed={siderCollapsed}
+                >
+                    <div className={styles.logo}>
+                        <a href="/">
+                            <img src={logoImg} />
+                            <span className={siderCollapsed ? styles.collapsed : ''}>ZIOT Portal</span>
+                        </a>
+                    </div>
+                    <NavMenu mode="inline" pathname={pathname} menus={navMenus} />
                 </Sider>
                 <Layout className="site-layout">
                     <Header className="site-layout-background" style={{ padding: 0 }}>
-                        {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                            className: 'trigger',
-                            onClick: this.toggle,
-                        })}
+                        <div className={styles.toolBar}>
+                            {React.createElement(siderCollapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                                className: styles.trigger,
+                                onClick: siderTrigger,
+                            })}
+                        </div>
+                        <div className={styles.systemBar}>
+                            <UserMenu />
+                            <LocaleSelect
+                                locales={locales}
+                                onChange={onSelectLocale}
+                                defaultValue={currentLocale || ''}
+                            />
+                        </div>
                     </Header>
                     <Content
                         className="site-layout-background"
                         style={{
                             margin: '24px 16px',
-                            padding: 24,
-                            minHeight: 280,
+                            minHeight: 'calc(100vh - 158px)',
                         }}
                     >
-                        Content
+                        <Transition
+                            name="move-down"
+                        >
+                            {children}
+                        </Transition>
                     </Content>
+                    <Footer>
+                        © 2018  Jiangsu Zillinx IOT Co.,Ltd.
+                    </Footer>
                 </Layout>
             </Layout>
         );
