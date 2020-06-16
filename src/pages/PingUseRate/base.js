@@ -2,7 +2,7 @@ import React from "react";
 import moment from "moment";
 
 export default
-class Base extends React.Component {
+class Base extends React.PureComponent {
     state = {
         startDate: moment().add(-1, 'months'),
         endDate: moment(),
@@ -10,9 +10,7 @@ class Base extends React.Component {
     };
     dateFormat = 'yyyy-MM-DD';
     componentDidMount() {
-        this.setState({
-            useAnimate: false
-        }, () => this.query());
+        this.query();
     }
 
     query = () => {
@@ -74,8 +72,6 @@ class Base extends React.Component {
                 endDate: now,
                 startDate: moment(now).add(-1, 'months')
             }
-        } else {
-
         }
         return state;
     }

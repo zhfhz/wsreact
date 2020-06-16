@@ -21,8 +21,8 @@ export default
 )
 class View extends Base {
     render() {
-        const { viewData, ...rest } = this.props;
-        const { startDate, endDate, useAnimate } = this.state;
+        const { viewData } = this.props;
+        const { startDate, endDate } = this.state;
         const jsonObject = viewData && viewData['jsonObject'] || {};
         const days = jsonObject['allPings'] && jsonObject['allPings']['time'] || [];
         const values = jsonObject['allPings'] && jsonObject['allPings']['metricValue'] || [];
@@ -76,7 +76,6 @@ class View extends Base {
             <div className={styles.pingUseRate}>
                 <Row gutter={24}>
                     <Transition
-                        useAnimate={useAnimate}
                         name="move-down"
                     >
                         <Col span={24}>
@@ -118,7 +117,6 @@ class View extends Base {
                         </Col>
                     </Transition>
                     <Transition
-                        useAnimate={useAnimate}
                         name="move-right"
                     >
                         <Col xl={{ span: 5 }} xs={{ span: 24 }}>
@@ -146,7 +144,6 @@ class View extends Base {
                         </Col>
                     </Transition>
                     <Transition
-                        useAnimate={useAnimate}
                         name="move-left"
                     >
                         <Col xl={{ span: 19 }} xs={{ span: 24 }}>

@@ -3,30 +3,28 @@ import intl from 'react-intl-universal';
 import { ConfigProvider } from 'antd';
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
-import Router from '@router';
+import MyRouter from '@router';
 import app from '@/dva';
 import locales from "@locales";
 import '@assets/css/common.less';
 import packageConfig from '../package.json';
 import getRoutes from "@routes/index";
-import { HashRouter} from "dva/router";
+import {HashRouter, Switch} from "dva/router";
 
 const routes = getRoutes();
 
 class App extends React.Component {
     state = {
         currentLocale: '',
+        hash: '',
     }
     constructor() {
         super();
         localStorage.setItem('global_transition_appear', 'true');
+
     }
     componentDidMount() {
         this.loadLocales();
-    }
-
-    loadMenus() {
-
     }
 
     loadLocales() {
@@ -56,16 +54,14 @@ class App extends React.Component {
     }
 
     render() {
-        const { props: { currentLocale, basename } } = this;
+        const { props: { basename }, state: { currentLocale } } = this;
         return (
             <ConfigProvider
                 locale={locales.antd[currentLocale]}
                 prefixCls={packageConfig.name}
             >
                 <HashRouter basename={`${basename}`}>
-                    {
-                        Router({ routes, basename: '' })
-                    }
+                    <MyRouter routes={routes} />
                 </HashRouter>
             </ConfigProvider>
         );

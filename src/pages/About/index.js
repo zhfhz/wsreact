@@ -7,18 +7,18 @@ export default
 @connect(({ about }) => ({
     ...about,
 }))
-class About extends React.Component {
-  render() {
-    const { description } = this.props;
-    return (
-        <div>
-            <h3>{intl.get('about')}</h3>
-            <Transition
-                name="move-right"
-            >
-                <p>{description}</p>
-            </Transition>
-        </div>
-    );
-  }
+class About extends React.PureComponent {
+    render() {
+        const { description } = this.props;
+        return (
+            <div>
+                <h3>{intl.get('about')}</h3>
+                <Transition
+                    name="move-right"
+                >
+                    <p>{description}</p>
+                </Transition>
+            </div>
+        );
+    }
 }

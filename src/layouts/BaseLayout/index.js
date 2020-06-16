@@ -1,17 +1,16 @@
 import { Layout, Menu } from 'antd';
 import React from "react";
 import { connect } from "dva";
-import intl from 'react-intl-universal';
 import {
     MenuUnfoldOutlined,
     MenuFoldOutlined
 } from '@ant-design/icons';
 import logoImg from '@assets/image/logo.png';
 import styles from './style.less';
-import Transition from "@components/Transition";
 import LocaleSelect from '@components/LocaleSelect';
 import NavMenu from '@components/NavMenu';
 import UserMenu from '@components/UserMenu';
+import { withRouter } from "react-router";
 
 const { Header, Sider, Content, Footer } = Layout;
 
@@ -28,8 +27,6 @@ export default
     })
 }))
 class BaseLayout extends React.Component {
-
-
     render() {
         const {
             navMenus,
@@ -81,11 +78,7 @@ class BaseLayout extends React.Component {
                             minHeight: 'calc(100vh - 158px)',
                         }}
                     >
-                        <Transition
-                            name="move-down"
-                        >
-                            {children}
-                        </Transition>
+                        {children}
                     </Content>
                     <Footer>
                         © 2018  Jiangsu Zillinx IOT Co.,Ltd.

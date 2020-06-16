@@ -7,23 +7,31 @@ export default [
   {
     path: '/app',
     component: dynamicWrapper(app, [], import('@layouts/BaseLayout')),
+    exact: false,
     pages: [
       {
         path: 'about',
         component: dynamicWrapper(app, [import('@pages/About/model')], import('@pages/About')),
+        exact: true,
       },
       {
         path: 'demo',
         component: dynamicWrapper(app, [import('@pages/PingUseRate/model')], import('@pages/PingUseRate')),
+        exact: true,
       },
       {
         path: 'mount/:module',
         component: PluginLoader(),
+        exact: true,
       },
       {
-        path: '',
+        path: '*',
         component: dynamicWrapper(app, [], import('@pages/NotFound')),
       }
     ]
   },
+  {
+    path: '',
+    component: dynamicWrapper(app, [], import('@pages/NotFound')),
+  }
 ];

@@ -1,57 +1,39 @@
 import React from 'react'
-import { Route, Switch } from 'dva/router';
+import {Route, Switch} from 'dva/router';
 import { Spin  } from 'antd';
 import dynamic from 'dva/dynamic';
-import PropTypes from 'prop-types';
 
 dynamic.setDefaultLoadingComponent(() => <Spin indicator={<div>Loading...</div>} />);
 
-const Router = ({ routes, basename = '' }) => {
-    console.log(routes);
-  return (
-      <Switch>
-          {
-              routes.map(({ path, component: Component, pages, ...rest }) => {
-                  if (pages) {
-                      console.log(`${basename}${path}`);
-                      return (
-                          <Route
-                              key={`${basename}${path}`}
-                              {...rest}
-                              component={props => {
-                                  return (
-                                      <Component
-                                          {...props}
-                                      >
-                                          <Router routes={pages} basename={`${basename}${path}/`} />
-                                      </Component>
-                                  );
-                              }}
-                              path={`${basename}${path}`}
-                              exact={false}
-                          />
-                      );
-                  } else {
-                      console.log(`${basename}${path}`);
-                      // 处理404
-                      const pathStr = path ? `${basename}${path}` : '';
-                      return (
-                          <Route
-                              exact={true}
-                              key={pathStr}
-                              {...rest}
-                              path={pathStr}
-                              component={Component}
-                          />
-                      );
-                  }
-              })
-          }
-      </Switch>
-  );
-};
-Router.propTypes = {
-    base: PropTypes.string,
-};
+function MyRouter(props) {
+    const { routes = [], basename = '' } = props;
+    return (
+        <Switch>
+            {
+                routes.map(({ path, component: Component, pages, ...rest }) => {
+                    const pathStr = `${basename}${path}`;
+                    if (pages) {
+                        return (
+                            <Route path={pathStr} key={pathStr} render={props => <Component {...props}>
+                                <MyRouter routes={pages} basename={`${basename}${path}/`}/>
+                            </Component>}></Route>
+                        );
+                    } else {
+                        console.log('===================');
+                        console.log(pathStr)
+                        return (
+                            <Route
+                                key={pathStr}
+                                path={pathStr}
+                                {...rest}
+                                component={Component}
+                            />
+                        );
+                    }
+                })
+            }
+        </Switch>
+    )
+}
 
-export default Router;
+export default MyRouter;

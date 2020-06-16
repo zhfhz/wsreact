@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { CSSTransitionGroup } from "react-transition-group";
 import styles from './style.less';
 
@@ -10,36 +10,30 @@ class Transition extends React.Component {
             show: false
         }
     }
-
     componentDidMount() {
-        const { delay = 0 } = this.props;
-        this.timer = setTimeout(() => this.setState({
+        this.setState({
             show: true
-        }), delay)
-    }
-
-    componentWillUnmount() {
-        clearTimeout(this.timer);
+        });
     }
 
     render(){
-        const { name = "move-down", useAnimate = true, ...rest } = this.props;
+        const { name = "move-down", children, ...rest } = this.props;
         const { show } = this.state;
-        return(
+        return show ? (
             <CSSTransitionGroup
-                transitionAppear={false}
+                transitionAppear={true}
                 transitionEnter={true}
                 transitionLeave={true}
                 transitionName={name}
                 transitionAppearTimeout={200}
                 transitionEnterTimeout={200}
                 transitionLeaveTimeout={200}
-                component={({children}) => children}
+                component={({ children }) => children}
                 {...rest}
             >
-                {show && this.props.children}
+                {children}
             </CSSTransitionGroup>
-        )
+        ) : null
     }
 }
 export default Transition;
