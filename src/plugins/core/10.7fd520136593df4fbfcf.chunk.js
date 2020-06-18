@@ -1,0 +1,2 @@
+(window.webpackJsonpcore=window.webpackJsonpcore||[]).push([[10],{926:function(e,s,c){"use strict";c.r(s),s.default={namespace:"about",state:{name:"about",description:"123"},effects:{},reducers:{},subscribe:{}}}}]);
+//# sourceMappingURL=10.7fd520136593df4fbfcf.chunk.js.map

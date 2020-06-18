@@ -1,13 +1,22 @@
+const path = require('path');
 const webpackBase = require('./webpack.base');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const packageConfig = require('../package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const devConfig = {
     devtool: 'source-map',
     mode: 'development'
+    // mode: 'production'
 }
 const config = Object.assign({}, webpackBase, {
+    devServer: {
+        contentBase: path.join(__dirname, "../dist"),
+        compress: false,
+        port: 9000,
+        hot: false,
+    },
     ...devConfig,
 });
 
@@ -25,6 +34,7 @@ module.exports = [
             ...webpackBase.output,
             // library: '[name]'
         },
+
     }),
     Object.assign({}, config, {
         entry: {
@@ -67,13 +77,12 @@ module.exports = [
                 title: 'react测试',
                 template: 'src/index.html',
                 favicon: 'src/assets/image/logo.png',
-                inject: 'head',
-                excludeChunks: ['index']
+                inject: false,
             }),
+            new CopyWebpackPlugin([ // 复制插件
+                { from: path.join(__dirname,'../src/plugins'), to:  path.join(__dirname,'../dist/plugins') }
+            ]),
             ...config.plugins,
         ],
-        optimization: {
-            minimize: false
-        },
     })
 ];

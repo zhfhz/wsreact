@@ -21,8 +21,8 @@ export default [
       },
       {
         path: 'mount/:module',
-        component: PluginLoader(),
-        exact: true,
+        component: PluginLoader,
+        exact: false,
       },
       {
         path: '*',

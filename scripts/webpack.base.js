@@ -91,12 +91,13 @@ const webpackTask = {
                     {
                         loader: 'css-loader',
                         options: {
-                            importLoaders: 2
+                            modules: false,
                         }
                     },
                     {
                         loader: 'postcss-loader',
                         options: {
+                            sourceMap: false,
                             plugins: (loader) =>  [
                                 require('postcss-import')({ root: loader.resourcePath }),
                                 require('postcss-preset-env')(),
@@ -108,6 +109,7 @@ const webpackTask = {
                     {
                         loader: 'less-loader',
                         options: {
+                            sourceMap: false,
                             lessOptions: {
                                 modifyVars: {
                                     ...themeConfig,
@@ -132,12 +134,6 @@ const webpackTask = {
         // new uglifyjs(),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
     ],
-    devServer: {
-        contentBase: path.join(__dirname, "dist"),
-        compress: false,
-        port: 9000,
-        hot: true,
-    }
 };
 
 module.exports = webpackTask;

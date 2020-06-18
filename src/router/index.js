@@ -19,8 +19,6 @@ function MyRouter(props) {
                             </Component>}></Route>
                         );
                     } else {
-                        console.log('===================');
-                        console.log(pathStr)
                         return (
                             <Route
                                 key={pathStr}

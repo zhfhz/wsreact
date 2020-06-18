@@ -6,9 +6,10 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --config ./scripts/webpack.server.js",
+    "dev": "cross-env webpack-dev-server --hot --inline --config ./scripts/webpack.server.js",
     "build:prod": "webpack --config ./scripts/webpack.prod.js",
     "build:dev": "webpack --config ./scripts/webpack.dev.js",
+    "build:plugin": "webpack --config ./scripts/webpack.plugin.js",
     "analysis": "webpack --config ./scripts/webpack.analysis.js"
   },
   "author": "",

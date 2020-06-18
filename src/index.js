@@ -8,10 +8,8 @@ import app from '@/dva';
 import locales from "@locales";
 import '@assets/css/common.less';
 import packageConfig from '../package.json';
-import getRoutes from "@routes/index";
-import {HashRouter, Switch} from "dva/router";
-
-const routes = getRoutes();
+import routes from "@routes/index";
+import { HashRouter } from "dva/router";
 
 class App extends React.Component {
     state = {

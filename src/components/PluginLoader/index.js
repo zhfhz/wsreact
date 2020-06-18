@@ -12,15 +12,17 @@ class LazyLoader extends React.Component {
     };
   }
   componentDidMount() {
-    const { path } = this.props;
-    window['require']([`plugins/${path}/index`], module => {
-      if (module.default) {
-        this.mountChild = module.default;
-        this.setState({
-          loaded: true,
-          err: true,
-        })
-      }
+    const { match: { params: { module } } } = this.props;
+    window['require']([`plugins/${module}/index`], () => {
+      window['require']([`${module}`], module => {
+        if (module.default) {
+          this.mountChild = module.default;
+          this.setState({
+            loaded: true,
+            err: false,
+          })
+        }
+      })
     }, () => {
       this.setState({
         err: true,
@@ -29,10 +31,10 @@ class LazyLoader extends React.Component {
     });
   }
   componentDidUpdate() {
+    const { match: { url = '' } } = this.props;
     if (this.mountChild) {
-      const { hash } = location;
-      this.mountChild(this.mountedDom, hash.replace('#', ''));
       this.mountedParent.appendChild(this.mountedDom);
+      this.mountChild(this.mountedDom, url);
       this.mountChild = null;
     }
   }
@@ -46,11 +48,9 @@ class LazyLoader extends React.Component {
     }
   }
   componentWillUnmount() {
-    setTimeout(() => {
-      ReactDOM.unmountComponentAtNode(this.mountedDom);
-      this.mountedDom.parentElement.removeChild(this.mountedDom);
-      this.mountedDom = null;
-    });
+    ReactDOM.unmountComponentAtNode(this.mountedDom);
+    this.mountedDom.parentElement.removeChild(this.mountedDom);
+    this.mountedDom = null;
   }
 
   render() {
@@ -65,6 +65,6 @@ class LazyLoader extends React.Component {
   }
 }
 
-export default (path, baseUrl) => {
-  return () => <LazyLoader path={path} baseUrl={baseUrl} />;
+export default (props) => {
+  return <LazyLoader {...props} />;
 }

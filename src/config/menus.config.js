@@ -13,7 +13,7 @@ export default [
         type: 'page',
     },
     {
-        path: '/app/test',
+        path: '/app/mount/core',
         name: 'test',
         type: 'plugin',
         module: 'test'
