@@ -1,4 +1,4 @@
-import menus from '@/config/menus.config';
+import menus  from '@/config/menus.config';
 
 const SUPPOER_LOCALES = [
     {

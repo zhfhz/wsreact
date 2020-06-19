@@ -3,12 +3,12 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 const prodConfig = {
 
-}
+};
 
-module.exports =  Object.assign({}, webpackProd[3], {
+module.exports =  Object.assign({}, webpackProd[webpackProd.length - 1], {
     ...prodConfig,
     plugins: [
-        ...webpackProd[3].plugins,
+        ...webpackProd[webpackProd.length - 1].plugins,
         new BundleAnalyzerPlugin()
     ],
 });

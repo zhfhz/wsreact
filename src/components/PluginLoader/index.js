@@ -40,17 +40,30 @@ class LazyLoader extends React.Component {
   }
 
   getMountDom = dom => {
+    const { match: { params: { module } } } = this.props;
     if (dom) {
       this.mountedParent = dom;
       const div = document.createElement('div');
-      div.id="d123";
+      div.id=`${module}_Root`;
       this.mountedDom = div;
     }
   }
   componentWillUnmount() {
+    const { match: { params: { module } } } = this.props;
     ReactDOM.unmountComponentAtNode(this.mountedDom);
     this.mountedDom.parentElement.removeChild(this.mountedDom);
     this.mountedDom = null;
+    setTimeout(() => {
+      // 删除此插件的依赖包以释放内存
+      window[`webpackJson${module}`] = null;
+      // 删除入口模块
+      window['requirejs'].undef(`plugins/${module}/index`);
+      window['requirejs'].undef(module);
+      const scripts = document.querySelectorAll(`script[src^=\\.\\/plugins\\/${module}\\/`) || [];
+      scripts.forEach(item => {
+        item.parentElement.removeChild(item);
+      });
+    }, 1000);
   }
 
   render() {

@@ -1,5 +1,5 @@
 {
-  "name": "core",
+  "name": "ziot",
   "version": "1.0.0",
   "namespace": "core",
   "description": "",
@@ -15,7 +15,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@ant-design": "latest",
     "@ant-design/charts": "^0.9.4",
     "@ant-design/icons": "latest",
     "@types/react-transition-group": "^4.4.0",
@@ -24,6 +23,8 @@
     "axios": "^0.19.2",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-runtime": "^6.26.0",
+    "bn.js": "^5.1.2",
+    "crypto-js": "^4.0.0",
     "dva": "^2.4.1",
     "dva-loading": "^3.0.20",
     "moment": "^2.18.1",

@@ -32,12 +32,22 @@ const getMenuOpenKeys = (pathname, menus) => {
     return openKeys;
 }
 
+const getSelectedKeys = (pathname, menus) => {
+    const CACHE = floorTree(menus);
+    const openKeys = [];
+    let target = CACHE.find(item => pathname.indexOf(item.path) === 0);
+    if (!target) {
+        return [];
+    }
+    return [target.path];
+}
+
 export default ({ menus, pathname, ...rest }) => {
     return (
         <Menu
             {...rest}
             openKeys={getMenuOpenKeys(pathname, menus)}
-            selectedKeys={[pathname]}
+            selectedKeys={getSelectedKeys(pathname, menus)}
         >
             {
                 menus.map(item => {

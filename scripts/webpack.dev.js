@@ -15,12 +15,30 @@ const config = Object.assign({}, webpackBase, {
         contentBase: path.join(__dirname, "../dist"),
         compress: false,
         port: 9000,
-        hot: false,
+        hot: true,
+        proxy: {
+            '/api': 'http://localhost:8080'
+        }
     },
     ...devConfig,
 });
 
 module.exports = [
+    Object.assign({}, config, {
+        entry: {
+            cryptojs: 'crypto-js',
+        },
+        plugins: [
+            new CleanWebpackPlugin(),
+            ...webpackBase.plugins,
+        ],
+        externals: {},
+        output: {
+            ...webpackBase.output,
+            // library: '[name]'
+        },
+
+    }),
     Object.assign({}, config, {
         entry: {
             react: 'react',

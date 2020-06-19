@@ -1,4 +1,4 @@
-import { Layout, Menu } from 'antd';
+import { Layout } from 'antd';
 import React from "react";
 import { connect } from "dva";
 import {
@@ -10,7 +10,6 @@ import styles from './style.less';
 import LocaleSelect from '@components/LocaleSelect';
 import NavMenu from '@components/NavMenu';
 import UserMenu from '@components/UserMenu';
-import { withRouter } from "react-router";
 
 const { Header, Sider, Content, Footer } = Layout;
 

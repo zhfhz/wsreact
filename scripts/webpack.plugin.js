@@ -20,14 +20,23 @@ const config = Object.assign({}, webpackBase, {
     ...devConfig,
 });
 
-module.exports = [
-    Object.assign({}, config, {
-        plugins: [
-            new CleanWebpackPlugin(),
-            new CopyWebpackPlugin([ // 复制插件
-                { from: path.join(__dirname,'../src/plugins'), to:  path.join(__dirname,'../dist/plugins') }
-            ]),
-            ...config.plugins,
-        ],
-    })
-];
+config.module.rules.forEach(rule => {
+    if (rule.test.toString() === '/\\.(less|css)/') {
+        rule.use.find(item => {
+            if (item.loader === 'style-loader') {
+                item.options = item.options || {};
+                item.options.attributes = { 'data-project': packageConfig.name };
+            }
+        })
+    }
+});
+
+module.exports = Object.assign({}, config, {
+    plugins: [
+        new CleanWebpackPlugin(),
+        new CopyWebpackPlugin([ // 复制插件
+            { from: path.join(__dirname,'../src/plugins'), to:  path.join(__dirname,'../dist/plugins') }
+        ]),
+        ...config.plugins,
+    ],
+})

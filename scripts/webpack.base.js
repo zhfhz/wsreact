@@ -28,6 +28,7 @@ const webpackTask = {
             "@layouts": path.resolve(__dirname,"../src/layouts"),
             "@assets": path.resolve(__dirname,"../src/assets"),
             "@locales": path.resolve(__dirname,"../src/locales"),
+            "bn.js": path.resolve(__dirname, '../node_modules', 'bn.js'),
         }
     },
     externals: {
@@ -35,7 +36,8 @@ const webpackTask = {
         'dva': 'dva',
         'react-intl-universal': 'intl',
         'react': 'react',
-        'react-dom': 'dom'
+        'react-dom': 'dom',
+        'crypto-js': 'cryptojs'
     },
     module: {
         rules: [
@@ -48,7 +50,10 @@ const webpackTask = {
                 test: /\.(less|css)/,
                 exclude: [/node_modules/],
                 use: [
-                    'style-loader',
+                    {
+                        loader: 'style-loader',
+                        options: { injectType: 'singletonStyleTag' },
+                    },
                     {
                         loader: 'css-loader',
                         options: {
@@ -87,7 +92,10 @@ const webpackTask = {
                 test: /\.(less|css)/,
                 include: [/node_modules/],
                 use: [
-                    'style-loader',
+                    {
+                        loader: 'style-loader',
+                        options: { injectType: 'singletonStyleTag' },
+                    },
                     {
                         loader: 'css-loader',
                         options: {
@@ -131,9 +139,8 @@ const webpackTask = {
         ],
     },
     plugins: [
-        // new uglifyjs(),
         new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    ],
+    ]
 };
 
 module.exports = webpackTask;

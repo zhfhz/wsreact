@@ -3,7 +3,7 @@ import { UserOutlined, DesktopOutlined } from "@ant-design/icons";
 import intl from "react-intl-universal";
 import { Menu, Avatar, Badge, Dropdown } from "antd";
 
-const { Item, ItemGroup, SubMenu } = Menu;
+const { Item, SubMenu } = Menu;
 
 const menus = [
     {

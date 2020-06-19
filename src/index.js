@@ -6,7 +6,7 @@ import 'react-app-polyfill/stable';
 import MyRouter from '@router';
 import app from '@/dva';
 import locales from "@locales";
-import '@assets/css/common.less';
+// import '@assets/css/common.less';
 import packageConfig from '../package.json';
 import routes from "@routes/index";
 import { HashRouter } from "dva/router";

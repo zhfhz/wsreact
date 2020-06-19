@@ -18,6 +18,20 @@ const config = Object.assign({}, webpackBase, {
 module.exports = [
     Object.assign({}, config, {
         entry: {
+            cryptojs: 'crypto-js',
+        },
+        plugins: [
+            new CleanWebpackPlugin(),
+            ...webpackBase.plugins,
+        ],
+        externals: {},
+        output: {
+            ...webpackBase.output,
+            // library: '[name]'
+        },
+    }),
+    Object.assign({}, config, {
+        entry: {
             react: 'react',
         },
         plugins: [

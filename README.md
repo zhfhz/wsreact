@@ -12,6 +12,6 @@
     src/config/routes.js: 页面路由定义，处理服务端菜单
     src/router: 路由组件
     src/assets: 静态文件
-    package.namespace: 默认作为项目挂载点名称，项目入口js文件名
+    package.name: 默认作为项目挂载点名称，项目入口js文件名
     
     
