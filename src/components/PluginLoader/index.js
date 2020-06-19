@@ -56,11 +56,17 @@ class LazyLoader extends React.Component {
     setTimeout(() => {
       // 删除此插件的依赖包以释放内存
       window[`webpackJson${module}`] = null;
-      // 删除入口模块
+      // 删除require缓存
       window['requirejs'].undef(`plugins/${module}/index`);
       window['requirejs'].undef(module);
+      // 删除插件的script标签
       const scripts = document.querySelectorAll(`script[src^=\\.\\/plugins\\/${module}\\/`) || [];
       scripts.forEach(item => {
+        item.parentElement.removeChild(item);
+      });
+      // 删除插件的style标签
+      const styles = document.querySelectorAll(`style[data-project=${module}]`);
+      styles.forEach(item => {
         item.parentElement.removeChild(item);
       });
     }, 1000);
@@ -69,11 +75,11 @@ class LazyLoader extends React.Component {
   render() {
     const { loaded, err } = this.state;
     return (
-      <div ref={this.getMountDom}>
-        {
-          loaded ? (err && <div>没有找到插件，请检查配置</div> || null) : <div>Loading...</div>
-        }
-      </div>
+        <div ref={this.getMountDom}>
+          {
+            loaded ? (err && <div>没有找到插件，请检查配置</div> || null) : <div>Loading...</div>
+          }
+        </div>
     );
   }
 }
