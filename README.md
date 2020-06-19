@@ -1,7 +1,8 @@
 # wsreact
     Webpack+React+Dva+Antd+Requirejs 架构。
 
-# 使用说明
+# 缺陷
+    目前仅能支持扩展项目，当扩展的项目足够多时，可能导致js文件引入越来越多，页面内存爆表。如何在项目切出时卸载内存中的项目对象还没有好的办法
 ## 约定
     src/components/PluginLoader: 子项目的加载器
     src/index.html: html模板
