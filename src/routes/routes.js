@@ -5,33 +5,54 @@ import PluginLoader from "@components/PluginLoader";
 /** 此处配置注册页面所有路由，静态菜单在src/config/routes.config.js中定义，或者可以从服务器获取 **/
 export default [
   {
+    path: '/sign',
+    exact: false,
+    component: dynamicWrapper(app, [], import('@layouts/BlankLayout')),
+    pages: [
+      {
+        path: '/in',
+        component: dynamicWrapper(app, [import('@pages/SignIn/model')], import('@pages/SignIn')),
+        exact: true,
+      },
+      {
+        path: '/up',
+        component: dynamicWrapper(app, [import('@pages/SignUp/model')], import('@pages/SignUp')),
+        exact: true,
+      },
+      {
+        path: '/',
+        redirect: '/sign/up',
+      }
+    ]
+  },
+  {
     path: '/app',
     component: dynamicWrapper(app, [], import('@layouts/BaseLayout')),
     exact: false,
     pages: [
       {
-        path: 'about',
+        path: '/about',
         component: dynamicWrapper(app, [import('@pages/About/model')], import('@pages/About')),
         exact: true,
       },
       {
-        path: 'demo',
+        path: '/demo',
         component: dynamicWrapper(app, [import('@pages/PingUseRate/model')], import('@pages/PingUseRate')),
         exact: true,
       },
       {
-        path: 'mount/:module',
+        path: '/mount/:module',
         component: PluginLoader,
         exact: false,
       },
       {
-        path: '*',
-        component: dynamicWrapper(app, [], import('@pages/NotFound')),
+        path: '/',
+        redirect: '/app/about',
       }
     ]
   },
   {
-    path: '',
-    component: dynamicWrapper(app, [], import('@pages/NotFound')),
+    path: '/',
+    redirect: '/sign/in',
   }
 ];
