@@ -22,12 +22,14 @@ const webpackTask = {
             "@": path.resolve(__dirname, "../src"),
             "@components": path.resolve(__dirname, "../src/components"),
             "@pages": path.resolve(__dirname,"../src/pages"),
+            "@common": path.resolve(__dirname,"../src/common"),
             "@router": path.resolve(__dirname,"../src/router"),
             "@routes": path.resolve(__dirname,"../src/routes"),
             "@utils": path.resolve(__dirname,"../src/utils"),
             "@layouts": path.resolve(__dirname,"../src/layouts"),
             "@assets": path.resolve(__dirname,"../src/assets"),
             "@locales": path.resolve(__dirname,"../src/locales"),
+            "@services": path.resolve(__dirname,"../src/services"),
             "bn.js": path.resolve(__dirname, '../node_modules', 'bn.js'),
         }
     },
@@ -98,9 +100,6 @@ const webpackTask = {
                     },
                     {
                         loader: 'css-loader',
-                        options: {
-                            modules: false,
-                        }
                     },
                     {
                         loader: 'postcss-loader',

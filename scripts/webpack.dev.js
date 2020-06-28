@@ -98,7 +98,8 @@ module.exports = [
                 inject: false,
             }),
             new CopyWebpackPlugin([ // 复制插件
-                { from: path.join(__dirname,'../src/plugins'), to:  path.join(__dirname,'../dist/plugins') }
+                { from: path.join(__dirname,'../src/plugins'), to:  path.join(__dirname,'../dist/plugins') },
+                { from: path.join(__dirname,'../src/assets'), to:  path.join(__dirname,'../dist/assets') }
             ]),
             ...config.plugins,
         ],

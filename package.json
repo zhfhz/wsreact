@@ -27,6 +27,7 @@
     "crypto-js": "^4.0.0",
     "dva": "^2.4.1",
     "dva-loading": "^3.0.20",
+    "history": "latest",
     "moment": "^2.18.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
@@ -39,7 +40,7 @@
     "react-router-dom": "^5.2.0",
     "react-transition-group": "latest",
     "redux": "^4.0.5",
-    "history": "latest"
+    "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
