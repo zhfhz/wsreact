@@ -1,6 +1,6 @@
 const path = require('path');
 const webpackBase = require('./webpack.base');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const del = require("del");
 const packageConfig = require('../package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -20,8 +20,11 @@ const config = Object.assign({}, webpackBase, {
             '/api': 'http://localhost:8080'
         }
     },
-    ...devConfig,
+    ...devConfig
 });
+
+// 删除dist
+del(['../dist/**']);
 
 module.exports = [
     Object.assign({}, config, {
@@ -29,30 +32,24 @@ module.exports = [
             cryptojs: 'crypto-js',
         },
         plugins: [
-            new CleanWebpackPlugin(),
             ...webpackBase.plugins,
         ],
         externals: {},
         output: {
             ...webpackBase.output,
-            // library: '[name]'
-        },
-
+        }
     }),
     Object.assign({}, config, {
         entry: {
             react: 'react',
         },
         plugins: [
-            new CleanWebpackPlugin(),
             ...webpackBase.plugins,
         ],
         externals: {},
         output: {
             ...webpackBase.output,
-            // library: '[name]'
-        },
-
+        }
     }),
     Object.assign({}, config, {
         entry: {
@@ -85,7 +82,6 @@ module.exports = [
         },
         output: {
             ...webpackBase.output,
-            // library: '[name]'
         },
     }),
     Object.assign({}, config, {

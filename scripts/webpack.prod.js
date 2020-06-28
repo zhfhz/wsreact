@@ -1,6 +1,6 @@
 const path = require('path');
 const webpackBase = require('./webpack.base');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const del = require("del");
 const packageConfig = require('../package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -8,11 +8,15 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const prodConfig = {
     mode: 'production',
-    devtool: 'cheap-module-source-map',
+    // devtool: 'cheap-module-source-map',
 }
 
 const config = Object.assign({}, webpackBase, {
-    ...prodConfig,
+    ...prodConfig
+});
+
+del(['dist/**'], {
+    cwd: path.resolve(__dirname, '../')
 });
 
 module.exports = [
@@ -21,7 +25,6 @@ module.exports = [
             cryptojs: 'crypto-js',
         },
         plugins: [
-            new CleanWebpackPlugin(),
             ...webpackBase.plugins,
         ],
         externals: {},
@@ -29,13 +32,13 @@ module.exports = [
             ...webpackBase.output,
             // library: '[name]'
         },
+
     }),
     Object.assign({}, config, {
         entry: {
             react: 'react',
         },
         plugins: [
-            new CleanWebpackPlugin(),
             ...webpackBase.plugins,
         ],
         externals: {},
@@ -43,6 +46,7 @@ module.exports = [
             ...webpackBase.output,
             // library: '[name]'
         },
+
     }),
     Object.assign({}, config, {
         entry: {
@@ -63,7 +67,8 @@ module.exports = [
         entry: {
             moment: ['moment/locale/zh-cn', 'moment/locale/zh-tw', 'moment/locale/en-gb', 'moment'],
             dva: 'dva',
-            intl: 'react-intl-universal'
+            intl: 'react-intl-universal',
+
         },
         plugins: [
             ...webpackBase.plugins,
@@ -87,12 +92,10 @@ module.exports = [
                 inject: false,
             }),
             new CopyWebpackPlugin([ // 复制插件
-                { from: path.join(__dirname,'../src/plugins'), to:  path.join(__dirname,'../dist/plugins') }
+                { from: path.join(__dirname,'../src/plugins'), to:  path.join(__dirname,'../dist/plugins') },
+                { from: path.join(__dirname,'../src/assets'), to:  path.join(__dirname,'../dist/assets') }
             ]),
             ...config.plugins,
         ],
-        optimization: {
-            minimize: true
-        },
     })
 ];
