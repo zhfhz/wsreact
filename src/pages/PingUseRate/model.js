@@ -1,4 +1,4 @@
-import { get } from '@utils/http';
+import { getData } from './service';
 
 export default {
     namespace: "pingUseRate",
@@ -6,13 +6,13 @@ export default {
         viewData: null,
     },
     effects: {
-        * getViewData({ payload }, { put }) {
-            const response = yield get('api/operation-service/v1/data/metric/queryliquidfillingall', { params: { ...payload }});
+        * getViewData({ payload }, { put, call }) {
+            const response = yield call(getData, {...payload});
             if (response) {
                 yield put({
                     type: 'save',
                     payload: response
-                })
+                });
             }
         }
     },

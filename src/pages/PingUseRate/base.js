@@ -9,8 +9,19 @@ class Base extends React.PureComponent {
         useAnimate: true,
     };
     dateFormat = 'yyyy-MM-DD';
+    constructor(props) {
+        super(props);
+        const { openSocket } = props;
+        openSocket();
+    }
     componentDidMount() {
         this.query();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.socketInstance !== this.props.socketInstance) {
+            this.props.socketInstance.send('xxx');
+        }
     }
 
     query = () => {

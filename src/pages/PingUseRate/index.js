@@ -4,21 +4,31 @@ import intl from 'react-intl-universal';
 import Transition from "@components/Transition";
 import { DatePicker, Space, Button, Row, Col } from 'antd';
 import { Line } from '@ant-design/charts';
+import {needLogin, needPermission} from '@components/Permission';
 import styles from './style.less';
 import Base from './base';
 
 export default
 @connect(
-    ({ pingUseRate }) => ({
+    ({ pingUseRate, global }) => ({
         ...pingUseRate,
+        socketInstance: global.socketService
     }),
     dispatch => ({
         getViewData: payload => dispatch({
             type: 'pingUseRate/getViewData',
             payload
+        }),
+        openSocket: () => dispatch({
+            type: 'global/openSocketListener',
+        }),
+        closeSocket: () => dispatch({
+            type: 'global/closeSocketListener',
         })
     })
 )
+@needPermission([])
+@needLogin
 class View extends Base {
     render() {
         const { viewData } = this.props;

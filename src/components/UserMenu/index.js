@@ -3,40 +3,18 @@ import { UserOutlined, DesktopOutlined } from "@ant-design/icons";
 import intl from "react-intl-universal";
 import { Menu, Avatar, Badge, Dropdown } from "antd";
 
-const { Item, SubMenu } = Menu;
-
-const menus = [
-    {
-        path: '/alert',
-        name: 'alert',
-    },
-    {
-        path: '/forget',
-        name: 'forget_pwd',
-    },
-    {
-        path: '/profile',
-        name: 'settings',
-    },
-    {
-        path: '/login',
-        name: 'logout',
-    }
-];
-
-const renderMenuItem = subMenus => {
+const {Item, SubMenu} = Menu, renderMenuItem = subMenus => {
     return subMenus.map(item => (
         <Item
             key={item.path}
-            icon={<DesktopOutlined />}
+            icon={<DesktopOutlined/>}
             title={intl.get(item.name)}
+            onClick={item.onClick}
         >
-            <a href={`#${item.path}`}>{intl.get(item.name)}</a>
+            {item.wrapper && <item.wrapper><span>{intl.get(item.name)}</span></item.wrapper> || <span>{intl.get(item.name)}</span>}
         </Item>
     ));
-}
-
-const renderMenu = menus => {
+}, renderMenu = menus => {
     return (
         <Menu>
             {
@@ -45,7 +23,7 @@ const renderMenu = menus => {
                         return (
                             <SubMenu
                                 key={item.path}
-                                icon={<DesktopOutlined />}
+                                icon={<DesktopOutlined/>}
                                 title={intl.get(item.name)}
                             >
                                 {renderMenuItem(item.children)}
@@ -58,9 +36,9 @@ const renderMenu = menus => {
             }
         </Menu>
     );
-}
+};
 
-export default ({ count = 0 }) => {
+export default ({ count = 0, menus = [] }) => {
     return (
         <Dropdown
             overlay={renderMenu(menus)}
@@ -68,9 +46,9 @@ export default ({ count = 0 }) => {
                 minWidth: 150
             }}
         >
-            <Badge count={count}>
+            <Badge dot={count >= 1}>
                 <Avatar shape="square" icon={<UserOutlined />} />
             </Badge>
         </Dropdown>
     );
-}
+};

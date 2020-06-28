@@ -7,6 +7,13 @@ import NotFound from "@pages/NotFound";
 
 export const history = createHashHistory();
 
+// 第一次加载页面的 路由不变的话不会执行路由监听函数
+history.isFirstPage = true;
+const unListen = history.listen(function () {
+    delete history.isFirstPage;
+    unListen();
+});
+
 dynamic.setDefaultLoadingComponent(() => <Spin indicator={<div>Loading...</div>} />);
 
 function MyRouter(props) {
@@ -18,9 +25,9 @@ function MyRouter(props) {
                     const pathStr = `${basename}${path}`;
                     if (pages) {
                         return (
-                            <Route path={pathStr} key={pathStr} render={props => <Component {...props}>
+                            <Route path={pathStr} key={pathStr} render={props => (<Component {...props}>
                                 <MyRouter routes={pages} basename={pathStr}/>
-                            </Component>}></Route>
+                            </Component>)} />
                         );
                     } else if (redirect) {
                         return (

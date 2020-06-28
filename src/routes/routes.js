@@ -53,6 +53,6 @@ export default [
   },
   {
     path: '/',
-    redirect: '/sign/in',
+    redirect: '/app/demo',
   }
 ];

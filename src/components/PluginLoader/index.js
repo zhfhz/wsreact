@@ -75,11 +75,11 @@ class LazyLoader extends React.Component {
   render() {
     const { loaded, err } = this.state;
     return (
-        <div ref={this.getMountDom}>
-          {
-            loaded ? (err && <div>没有找到插件，请检查配置</div> || null) : <div>Loading...</div>
-          }
-        </div>
+      <div ref={this.getMountDom}>
+        {
+          loaded ? (err && <div>没有找到插件，请检查配置</div> || null) : <div>Loading...</div>
+        }
+      </div>
     );
   }
 }

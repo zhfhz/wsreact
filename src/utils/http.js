@@ -1,88 +1,69 @@
-import axios from 'axios';
-import { encrypt, decrypt, RandUtilsEx, HmacSHA256 } from '@utils';
+import http from 'axios';
+import { encrypt, HmacSHA256 } from '@utils';
+import { history } from '@router';
+import { COMMON_KEYS, SESSION_STORAGE_KEYS } from "@/config/constants";
 
-function setOuthHeader(config) {
-    let appId = "1001";
+const APP_ID = COMMON_KEYS.APP_ID;
+const APP_SECRET = COMMON_KEYS.APP_SECRET;
+
+function setReqHeader(config) {
+    let appId = APP_ID;
     let time = new Date().getTime().toString();
     let random = Math.random().toString();
-    let appSecret = "AjdYD6mYdMIdTaPH";
-    let plainText = appId + time + random;
-    let sign = HmacSHA256(plainText, appSecret).toString();
+    let userName = sessionStorage.getItem(SESSION_STORAGE_KEYS.USER_NAME) || '';
+    let tenantId = sessionStorage.getItem(SESSION_STORAGE_KEYS.TENANT_ID) || '';
+    let token = sessionStorage.getItem(SESSION_STORAGE_KEYS.TOKEN) || '';
+    let sign = HmacSHA256(appId + time + random + userName + token, APP_SECRET).toString();
 
-    appId = encrypt(appId);
-    time = encrypt(time);
-    random = encrypt(random);
-    sign = encrypt(sign);
-
-    config.headers["appId"] = appId;
-    config.headers["time"] = time;
-    config.headers["random"] = random;
-    config.headers["sign"] = sign;
-
-    return config;
-}
-
-function setTokenHeader (config) {
-    let appId = "1001";
-    let time = new Date().getTime().toString();
-    let random = Math.random().toString();
-    let appSecret = "AjdYD6mYdMIdTaPH";
-    let token = sessionStorage.getItem("token");
-    let userName = sessionStorage.getItem("userName");
-    let tenantId = sessionStorage.getItem("tenantId");
-
-    let plainText = appId + time + random + userName + token;
-
-    let sign = HmacSHA256(plainText, appSecret).toString();
-
-    appId = encrypt(appId);
-    time = encrypt(time);
-    random = encrypt(random);
-    token = encrypt(token);
-    sign = encrypt(sign);
-    userName = encrypt(userName);
-    tenantId = encrypt(tenantId);
-
-    config.headers["appId"] = appId;
-    config.headers["time"] = time;
-    config.headers["random"] = random;
-    config.headers["token"] = token;
-    config.headers["userName"] = userName;
-    config.headers["sign"] = sign;
-    config.headers["tenantId"] = tenantId;
+    const headers = {
+        appId,
+        time,
+        random,
+        token,
+        userName,
+        tenantId,
+        sign
+    };
+    Object.keys(headers).forEach(key => {
+        if (headers[key]) {
+            config.headers[key] = encrypt(headers[key]);
+        }
+    });
 
     const tokenInfo = {"appId":appId,"time":time,"random":random,"token":token,"userName":userName,"sign":sign,"tenantId":tenantId};
-    sessionStorage.setItem("_TOKEN_INFO_",JSON.stringify(tokenInfo));
+    sessionStorage.setItem(SESSION_STORAGE_KEYS.TOKEN_INFO,JSON.stringify(tokenInfo));
+
     return config;
 }
-
 
 const DEV_URL = 'http://web.zillinx.com:18080/';
 const PROD_URL = 'http://web.zillinx.com:8080/';
 const baseURL = process.env.NODE_ENV === 'production' ? PROD_URL : DEV_URL;
-const instance = axios.create({
+const instance = http.create({
     baseURL
 });
 
 instance.interceptors.request.use(
-    config => {
-        if(config.url == "api/link-service/v1/oauth/gettoken") {
-            return setOuthHeader(config);
-        }
-        return setTokenHeader(config);
-    },
+    setReqHeader,
     err => {
         return Promise.reject(err)
     }
 );
 
 instance.interceptors.response.use(
-    response => {
-        if(response.data.result != null && (response.data.result.code == 401)) {
+     response => {
+        if(response.data.result !== null && (response.data.result.code === 401)) {
             console.log("会话超时!");
-            sessionStorage.removeItem("token");
+            sessionStorage.removeItem(SESSION_STORAGE_KEYS.TOKEN);
+            sessionStorage.removeItem(SESSION_STORAGE_KEYS.USER_NAME);
+            sessionStorage.removeItem(SESSION_STORAGE_KEYS.TENANT_ID);
+            sessionStorage.removeItem(SESSION_STORAGE_KEYS.TOKEN_INFO);
+            history.push({
+                pathname: '/sign/in'
+            });
+            return response.data;
         }
-        return response;
+         return response.data;
     },
     //接口错误状态处理，也就是说无响应时的处理
     err => {

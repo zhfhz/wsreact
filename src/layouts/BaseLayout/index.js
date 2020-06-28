@@ -1,4 +1,4 @@
-import { Layout } from 'antd';
+import {Badge, Layout} from 'antd';
 import React from "react";
 import { connect } from "dva";
 import {
@@ -11,7 +11,7 @@ import LocaleSelect from '@components/LocaleSelect';
 import NavMenu from '@components/NavMenu';
 import UserMenu from '@components/UserMenu';
 
-const { Header, Sider, Content, Footer } = Layout;
+const { Header, Content, Sider, Footer } = Layout;
 
 export default
 @connect(({ global }) => ({
@@ -23,6 +23,9 @@ export default
     }),
     siderTrigger: () => dispatch({
         type: 'global/siderTrigger',
+    }),
+    logout: () => dispatch({
+        type: 'global/logout'
     })
 }))
 class BaseLayout extends React.Component {
@@ -32,9 +35,29 @@ class BaseLayout extends React.Component {
             locales,
             location: { pathname },
             children,
+            logout,
             siderCollapsed,
             onSelectLocale,
             siderTrigger } = this.props;
+        const menus = [
+            {
+                onClick: null,
+                wrapper: ({ children }) => (<Badge dot={1}>{children}</Badge>),
+                name: 'alert',
+            },
+            {
+                onClick: null,
+                name: 'forget_pwd',
+            },
+            {
+                onClick: null,
+                name: 'settings',
+            },
+            {
+                onClick: logout,
+                name: 'logout',
+            }
+        ];
         const langArr= location.search.match(/lang=([^&]+)/);
         const currentLocale = langArr && langArr[1];
         return (
@@ -47,7 +70,7 @@ class BaseLayout extends React.Component {
                 >
                     <div className={styles.logo}>
                         <a href="/">
-                            <img src={logoImg} />
+                            <img alt="" src={logoImg} />
                             <span className={siderCollapsed ? styles.collapsed : ''}>ZIOT Portal</span>
                         </a>
                     </div>
@@ -62,7 +85,7 @@ class BaseLayout extends React.Component {
                             })}
                         </div>
                         <div className={styles.systemBar}>
-                            <UserMenu />
+                            <UserMenu count={1} menus={menus} />
                             <LocaleSelect
                                 locales={locales}
                                 onChange={onSelectLocale}

@@ -2,13 +2,11 @@ import React from 'react';
 import { connect } from 'dva';
 import intl from 'react-intl-universal';
 import Transition from "@components/Transition";
-import { needLogin } from '@components/Permission';
 
 export default
 @connect(({ about }) => ({
     ...about,
 }))
-@needLogin
 class About extends React.PureComponent {
     render() {
         const { description } = this.props;
