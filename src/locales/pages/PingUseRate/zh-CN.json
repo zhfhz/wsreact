@@ -1,3 +1,12 @@
 {
-  "demo": "瓶周转率"
+  "demo": "瓶周转率",
+  "ping_use_rate": "周轉率",
+  "ping_use_rate_line": "瓶周转率曲线",
+  "ping_use_overview": "瓶周转率概览",
+  "ping_num_total": "总的瓶数",
+  "ping_use_times_unit": "次",
+  "ping_num_unit": "个",
+  "ping_use_times_total": "总的充装次数",
+  "ping_avg_use_times_total": "平均每天充装次数",
+  "date": "日期"
 }

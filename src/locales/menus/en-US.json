@@ -1,3 +1,6 @@
 {
-
+  "logout": "Logout",
+  "settings": "Settings",
+  "forget_pwd": "Change PWD",
+  "alert": "Alert Center"
 }

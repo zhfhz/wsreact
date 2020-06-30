@@ -1,5 +1,5 @@
 import React from 'react'
-// import { CSSTransition } from "react-transition-group";
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Transition extends React.Component {
 
@@ -9,16 +9,31 @@ class Transition extends React.Component {
             show: false
         }
     }
+
     componentDidMount() {
         this.setState({
             show: true
         });
     }
 
-    render(){
-        const { children } = this.props;
-        const { show } = this.state;
-        return show ? (children) : null
+    render() {
+        const {children, name = 'move-down', ...rest} = this.props;
+        const {show} = this.state;
+        return (
+            <CSSTransitionGroup
+                transitionName={name}
+                transitionAppear
+                transitionEnter
+                transitionLeave
+                transitionAppearTimeout={200}
+                transitionEnterTimeout={200}
+                transitionLeaveTimeout={200}
+                component={({children}) => children}
+                {...rest}
+            >
+                {show ? (children) : null}
+            </CSSTransitionGroup>
+        )
     }
 }
 export default Transition;

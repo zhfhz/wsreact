@@ -1,19 +1,6 @@
 {
-  "default_locale_select_option": "Language",
-  "logout": "注銷",
-  "settings": "設置",
-  "forget_pwd": "修改密碼",
-  "alert": "消息中心",
+  "APP_NAME": "智冷物聯云平臺",
   "do_query": "查詢",
   "start_date": "開始日期",
-  "end_date": "結束日期",
-  "ping_use_rate": "周轉率",
-  "ping_use_rate_line": "瓶周轉率曲綫",
-  "ping_use_overview": "瓶周轉率概覽",
-  "ping_num_total": "縂的瓶數",
-  "ping_use_times_unit": "次",
-  "ping_num_unit": "個",
-  "ping_use_times_total": "縂的充裝次數",
-  "ping_avg_use_times_total": "平均每天充裝次數",
-  "date": "日期"
+  "end_date": "結束日期"
 }

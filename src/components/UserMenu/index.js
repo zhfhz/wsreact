@@ -1,7 +1,7 @@
 import React from "react";
-import { UserOutlined, DesktopOutlined } from "@ant-design/icons";
+import {DesktopOutlined, UserOutlined} from "@ant-design/icons";
 import intl from "react-intl-universal";
-import { Menu, Avatar, Badge, Dropdown } from "antd";
+import {Avatar, Badge, Dropdown, Menu} from "antd";
 
 const {Item, SubMenu} = Menu, renderMenuItem = subMenus => {
     return subMenus.map(item => (
@@ -11,7 +11,8 @@ const {Item, SubMenu} = Menu, renderMenuItem = subMenus => {
             title={intl.get(item.name)}
             onClick={item.onClick}
         >
-            {item.wrapper && <item.wrapper><span>{intl.get(item.name)}</span></item.wrapper> || <span>{intl.get(item.name)}</span>}
+            {item.wrapper && <item.wrapper><span>{intl.get(item.name)}</span></item.wrapper> ||
+            <span>{intl.get(item.name)}</span>}
         </Item>
     ));
 }, renderMenu = menus => {
@@ -47,7 +48,7 @@ export default ({ count = 0, menus = [] }) => {
             }}
         >
             <Badge dot={count >= 1}>
-                <Avatar shape="square" icon={<UserOutlined />} />
+                <Avatar shape="square" icon={<UserOutlined/>}/>
             </Badge>
         </Dropdown>
     );

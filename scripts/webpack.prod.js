@@ -9,7 +9,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const prodConfig = {
     mode: 'production',
     // devtool: 'cheap-module-source-map',
-}
+};
 
 const config = Object.assign({}, webpackBase, {
     ...prodConfig
@@ -92,8 +92,8 @@ module.exports = [
                 inject: false,
             }),
             new CopyWebpackPlugin([ // 复制插件
-                { from: path.join(__dirname,'../src/plugins'), to:  path.join(__dirname,'../dist/plugins') },
-                { from: path.join(__dirname,'../src/assets'), to:  path.join(__dirname,'../dist/assets') }
+                {from: path.join(__dirname, '../src/plugins'), to: path.join(__dirname, '../dist/plugins')},
+                {from: path.join(__dirname, '../src/assets'), to: path.join(__dirname, '../dist/assets')}
             ]),
             ...config.plugins,
         ],

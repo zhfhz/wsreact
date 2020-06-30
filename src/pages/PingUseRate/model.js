@@ -1,4 +1,4 @@
-import { getData } from './service';
+import {getData} from './service';
 
 export default {
     namespace: "pingUseRate",
@@ -7,11 +7,11 @@ export default {
     },
     effects: {
         * getViewData({ payload }, { put, call }) {
-            const response = yield call(getData, {...payload});
-            if (response) {
+            const {data, ok} = yield call(getData, {...payload});
+            if (ok) {
                 yield put({
                     type: 'save',
-                    payload: response
+                    payload: data
                 });
             }
         }

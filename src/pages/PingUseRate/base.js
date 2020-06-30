@@ -9,12 +9,13 @@ class Base extends React.PureComponent {
         useAnimate: true,
     };
     dateFormat = 'yyyy-MM-DD';
-    constructor(props) {
-        super(props);
-        const { openSocket } = props;
-        openSocket();
-    }
+
     componentDidMount() {
+        const {socketInstance} = this.props;
+        // 监听socket
+        this.removeSocketListener = socketInstance.on('message', e => {
+            console.log('socket message', e.data);
+        });
         this.query();
     }
 
@@ -25,36 +26,33 @@ class Base extends React.PureComponent {
     }
 
     query = () => {
-        const { getViewData } = this.props;
-        const { startDate, endDate } = this.state;
+        const {getViewData} = this.props;
+        const {startDate, endDate} = this.state;
         getViewData({
             tenantId: 'T00000',
             startTime: `${startDate.format(this.dateFormat)} 00:00:00`,
             end: `${endDate.format(this.dateFormat)} 23:59:59`,
         });
-    }
+    };
 
     handleDisableDate = time => {
         const now = moment();
-        if (time > now) {
-            return true;
-        }
-        return false;
-    }
+        return time > now;
+    };
 
     handleStartDatePickerChange = startDate => {
-        const { endDate } = this.state;
+        const {endDate} = this.state;
         let state = this.handleDatePickerChange(startDate, endDate);
         const targetEndDate = moment(state.startDate).add(1, 'months');
         state = {
             ...state,
             endDate: targetEndDate
-        }
+        };
         this.setState(state);
-    }
+    };
 
     handleEndDatePickerChange = endDate => {
-        const { startDate } = this.state;
+        const {startDate} = this.state;
         let state = this.handleDatePickerChange(startDate, endDate);
         const targetStartDate = moment(state.endDate).add(-1, 'months');
         state = {
@@ -62,7 +60,7 @@ class Base extends React.PureComponent {
             startDate: targetStartDate
         };
         this.setState(state);
-    }
+    };
 
     handleDatePickerChange = (startDate, endDate) => {
         const now = moment();
@@ -85,5 +83,9 @@ class Base extends React.PureComponent {
             }
         }
         return state;
+    };
+
+    componentWillUnmount() {
+        this.removeSocketListener();
     }
 }

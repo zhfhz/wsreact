@@ -1,8 +1,7 @@
 # wsreact
     Webpack+React+Dva+Antd+Requirejs 架构。
 
-# 挂载引入
-    现在支持插件资源的载入和卸载时的内存释放了。
+# 使用说明
 ## 约定
     src/components/PluginLoader: 子项目的加载器
     src/index.html: html模板

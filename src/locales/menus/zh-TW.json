@@ -1,3 +1,6 @@
 {
-
+  "logout": "注銷",
+  "settings": "設置",
+  "forget_pwd": "修改密碼",
+  "alert": "消息中心"
 }

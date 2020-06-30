@@ -1,0 +1,11 @@
+{
+  "SIGN_IN_PWD": "Password",
+  "SIGN_IN_ACCOUNT": "Account",
+  "SIGN_IN_PWD_PLACEHOLDER": "Enter your pwd",
+  "SIGN_IN_ACCOUNT_PLACEHOLDER": "Enter your account",
+  "SIGN_IN_LOGIN": "Login",
+  "SIGN_IN_LINK_FORGET": "Forget pwd?",
+  "SIGN_IN_LINK_REGISTER": "Sign up",
+  "SIGN_IN_LINK_AGREEMENT": "By signing up, you agree to <a href='#/agreement'>User Agreement</a>, <a href='#/agreement'>Privacy Policy</a>。",
+  "SIGN_IN_LINK_LOGIN_FAILED": "The account/password invalid."
+}

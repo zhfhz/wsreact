@@ -1,19 +1,6 @@
 {
-  "default_locale_select_option": "Language",
-  "logout": "Logout",
-  "settings": "Settings",
-  "forget_pwd": "Change PWD",
-  "alert": "Alert Center",
+  "APP_NAME": "ZIoT Cloud Platform",
   "do_query": "Query",
   "start_date": "DateBegin",
-  "end_date": "DateEnd",
-  "ping_use_rate": "Utilization rate of gas",
-  "ping_use_rate_line": "Utilization rate of gas cylinder",
-  "ping_use_overview": "Overview of bottle turnover rate",
-  "ping_num_total": "Total bottles",
-  "ping_use_times_unit": "",
-  "ping_num_unit": "",
-  "ping_use_times_total": "Total filling times",
-  "ping_avg_use_times_total": "Average filling times per day",
-  "date": "Date"
+  "end_date": "DateEnd"
 }

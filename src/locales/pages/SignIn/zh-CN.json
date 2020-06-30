@@ -1,0 +1,11 @@
+{
+  "SIGN_IN_PWD": "密码",
+  "SIGN_IN_ACCOUNT": "账号",
+  "SIGN_IN_PWD_PLACEHOLDER": "请输入密码",
+  "SIGN_IN_ACCOUNT_PLACEHOLDER": "请输入账号",
+  "SIGN_IN_LOGIN": "登录",
+  "SIGN_IN_LINK_FORGET": "忘记密码",
+  "SIGN_IN_LINK_REGISTER": "立即注册",
+  "SIGN_IN_LINK_AGREEMENT": "登录注册即表示同意<a href='#/agreement'>用户协议</a>、<a href='#/agreement'>隐私条款</a>。",
+  "SIGN_IN_LINK_LOGIN_FAILED": "用户名不存在或密码错误。"
+}

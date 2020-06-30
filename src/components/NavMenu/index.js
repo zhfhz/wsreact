@@ -1,22 +1,22 @@
 import React from "react";
-import { DesktopOutlined } from "@ant-design/icons";
+import {DesktopOutlined} from "@ant-design/icons";
 import intl from "react-intl-universal";
-import { Menu } from "antd";
-import { floorTree } from '@utils';
+import {Menu} from "antd";
+import {floorTree} from '@utils/obj';
 
-const { Item, SubMenu } = Menu;
+const {Item, SubMenu} = Menu;
 
 const renderMenuItem = subMenus => {
     return subMenus.map(item => (
         <Item
             key={item.path}
-            icon={<DesktopOutlined />}
+            icon={<DesktopOutlined/>}
             title={intl.get(item.name)}
         >
             <a href={`#${item.path}`}>{intl.get(item.name)}</a>
         </Item>
     ));
-}
+};
 
 const getMenuOpenKeys = (pathname, menus) => {
     const CACHE = floorTree(menus);
@@ -30,17 +30,16 @@ const getMenuOpenKeys = (pathname, menus) => {
         target = target.parent;
     }
     return openKeys;
-}
+};
 
 const getSelectedKeys = (pathname, menus) => {
     const CACHE = floorTree(menus);
-    const openKeys = [];
     let target = CACHE.find(item => pathname.indexOf(item.path) === 0);
     if (!target) {
         return [];
     }
     return [target.path];
-}
+};
 
 export default ({ menus, pathname, ...rest }) => {
     return (

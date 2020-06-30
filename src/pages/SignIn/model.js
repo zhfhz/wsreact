@@ -1,20 +1,21 @@
-import { login } from './service';
+import {login} from './service';
 import {SESSION_STORAGE_KEYS} from "@/config/constants";
-import { history } from "@router/index";
+import {history} from "@router/index";
 
 export default {
     namespace: "signIn",
     state: {
         username: '',
-        password: ''
+        password: '',
+        showErr: false
     },
     effects: {
         * login (_, { call, put, select }) {
             const state = yield select(state => ({
                 ...state['signIn']
             }));
-            const data = yield call(login, {...state});
-            if (data) {
+            const {data, ok} = yield call(login, {...state});
+            if (ok) {
                 const token = data.token;
                 if (data["serverUrl"] != null && data["serverUrl"]["wsUrl"] != null) {
                     sessionStorage.setItem(SESSION_STORAGE_KEYS.SOCKET_URL, data["serverUrl"]["wsUrl"]);
@@ -29,13 +30,20 @@ export default {
                 }
 
                 yield put({
-                    type: 'global/openSocketListener'
+                    type: 'global/initWebSocket'
+                });
+            } else {
+                yield put({
+                    type: 'save',
+                    payload: {
+                        showErr: true
+                    }
                 });
             }
         }
     },
     reducers: {
-        saveState(state, { payload }) {
+        save(state, {payload}) {
             return {
                 ...state,
                 ...payload

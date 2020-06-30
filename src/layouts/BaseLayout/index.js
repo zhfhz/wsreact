@@ -1,20 +1,16 @@
 import {Badge, Layout} from 'antd';
 import React from "react";
-import { connect } from "dva";
-import {
-    MenuUnfoldOutlined,
-    MenuFoldOutlined
-} from '@ant-design/icons';
+import {connect} from "dva";
+import {MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons';
 import logoImg from '@assets/image/logo.png';
 import styles from './style.less';
 import LocaleSelect from '@components/LocaleSelect';
 import NavMenu from '@components/NavMenu';
 import UserMenu from '@components/UserMenu';
 
-const { Header, Content, Sider, Footer } = Layout;
+const {Header, Content, Sider, Footer} = Layout;
 
-export default
-@connect(({ global }) => ({
+export default @connect(({global}) => ({
     ...global,
 }), (dispatch) => ({
     onSelectLocale: payload => dispatch({
@@ -33,16 +29,17 @@ class BaseLayout extends React.Component {
         const {
             navMenus,
             locales,
-            location: { pathname },
+            location: {pathname},
             children,
             logout,
             siderCollapsed,
             onSelectLocale,
-            siderTrigger } = this.props;
+            siderTrigger
+        } = this.props;
         const menus = [
             {
                 onClick: null,
-                wrapper: ({ children }) => (<Badge dot={1}>{children}</Badge>),
+                wrapper: ({children}) => (<Badge dot={1}>{children}</Badge>),
                 name: 'alert',
             },
             {
@@ -58,7 +55,7 @@ class BaseLayout extends React.Component {
                 name: 'logout',
             }
         ];
-        const langArr= location.search.match(/lang=([^&]+)/);
+        const langArr = location.search.match(/lang=([^&]+)/);
         const currentLocale = langArr && langArr[1];
         return (
             <Layout className={styles.BaseLayout}>
@@ -85,7 +82,7 @@ class BaseLayout extends React.Component {
                             })}
                         </div>
                         <div className={styles.systemBar}>
-                            <UserMenu count={1} menus={menus} />
+                            <UserMenu count={1} menus={menus}/>
                             <LocaleSelect
                                 locales={locales}
                                 onChange={onSelectLocale}

@@ -9,7 +9,7 @@ const devConfig = {
     devtool: 'source-map',
     mode: 'development'
     // mode: 'production'
-}
+};
 const config = Object.assign({}, webpackBase, {
     devServer: {
         contentBase: path.join(__dirname, "../dist"),
