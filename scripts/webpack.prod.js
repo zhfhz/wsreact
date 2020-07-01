@@ -8,10 +8,19 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const prodConfig = {
     mode: 'production',
-    // devtool: 'cheap-module-source-map',
+    devtool: 'cheap-module-source-map',
 };
 
 const config = Object.assign({}, webpackBase, {
+    devServer: {
+        contentBase: path.join(__dirname, "../dist"),
+        compress: true,
+        port: 9000,
+        hot: true,
+        proxy: {
+            '/api': 'http://localhost:8080'
+        }
+    },
     ...prodConfig
 });
 

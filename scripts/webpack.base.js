@@ -31,6 +31,7 @@ const webpackTask = {
             "@locales": path.resolve(__dirname,"../src/locales"),
             "@services": path.resolve(__dirname,"../src/services"),
             "bn.js": path.resolve(__dirname, '../node_modules', 'bn.js'),
+            "history": path.resolve(__dirname, '../node_modules/react-router-dom/node_modules', 'history'),
         }
     },
     externals: {
