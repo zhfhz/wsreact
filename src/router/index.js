@@ -2,10 +2,9 @@ import React from 'react'
 import { Route, Switch, Redirect} from 'dva/router';
 import { Spin  } from 'antd';
 import dynamic from 'dva/dynamic';
-import { createHashHistory } from 'history';
 import NotFound from "@pages/NotFound";
 
-export const history = createHashHistory();
+export const history = require('history').createHashHistory();
 
 // 第一次加载页面的 路由不变的话不会执行路由监听函数
 history.isFirstPage = true;

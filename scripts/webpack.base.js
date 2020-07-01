@@ -30,8 +30,7 @@ const webpackTask = {
             "@assets": path.resolve(__dirname,"../src/assets"),
             "@locales": path.resolve(__dirname,"../src/locales"),
             "@services": path.resolve(__dirname,"../src/services"),
-            "bn.js": path.resolve(__dirname, '../node_modules', 'bn.js'),
-            "history": path.resolve(__dirname, '../node_modules/react-router-dom/node_modules', 'history'),
+            "bn.js": path.resolve(__dirname, '../node_modules/bn.js')
         }
     },
     externals: {
@@ -133,7 +132,7 @@ const webpackTask = {
                 test: /\.(png|jpg|gif|svg)$/,
                 loader: 'url-loader',
                 options: {
-                    limit: 100000,
+                    limit: 5000,
                 }
             }
         ],

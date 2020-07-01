@@ -4,6 +4,7 @@ const del = require("del");
 const packageConfig = require('../package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
 const devConfig = {
     devtool: 'source-map',
@@ -13,14 +14,24 @@ const devConfig = {
 const config = Object.assign({}, webpackBase, {
     devServer: {
         contentBase: path.join(__dirname, "../dist"),
-        compress: false,
+        compress: true,
         port: 9000,
         hot: true,
         proxy: {
             '/api': 'http://localhost:8080'
         }
     },
-    ...devConfig
+    ...devConfig,
+    plugins: [
+        new CompressionWebpackPlugin({
+            filename: '[path].gz[query]',
+            algorithm: 'gzip',
+            test: new RegExp('\\.(js|css)$'),
+            threshold: 10240,
+            minRatio: 0.9
+        }),
+        ...webpackBase.plugins
+    ]
 });
 
 // 删除dist
@@ -31,9 +42,6 @@ module.exports = [
         entry: {
             cryptojs: 'crypto-js',
         },
-        plugins: [
-            ...webpackBase.plugins,
-        ],
         externals: {},
         output: {
             ...webpackBase.output,
@@ -43,9 +51,6 @@ module.exports = [
         entry: {
             react: 'react',
         },
-        plugins: [
-            ...webpackBase.plugins,
-        ],
         externals: {},
         output: {
             ...webpackBase.output,
@@ -55,9 +60,6 @@ module.exports = [
         entry: {
             dom: 'react-dom'
         },
-        plugins: [
-            ...webpackBase.plugins,
-        ],
         externals: {
             react: 'react',
         },
@@ -73,9 +75,6 @@ module.exports = [
             intl: 'react-intl-universal',
 
         },
-        plugins: [
-            ...webpackBase.plugins,
-        ],
         externals: {
             'react-dom': 'dom',
             'react': 'react'

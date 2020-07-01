@@ -18,6 +18,16 @@ const config = Object.assign({}, webpackBase, {
         library: `${packageConfig.name}`,
     },
     ...devConfig,
+    plugins: [
+        new CompressionWebpackPlugin({
+            filename: '[path].gz[query]',
+            algorithm: 'gzip',
+            test: new RegExp('\\.(js|css)$'),
+            threshold: 10240,
+            minRatio: 0.9
+        }),
+        ...webpackBase.plugins
+    ]
 });
 
 config.module.rules.forEach(rule => {

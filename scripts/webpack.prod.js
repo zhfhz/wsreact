@@ -4,6 +4,7 @@ const del = require("del");
 const packageConfig = require('../package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
 
 const prodConfig = {
@@ -21,7 +22,17 @@ const config = Object.assign({}, webpackBase, {
             '/api': 'http://localhost:8080'
         }
     },
-    ...prodConfig
+    ...prodConfig,
+    plugins: [
+        new CompressionWebpackPlugin({
+            filename: '[path].gz[query]',
+            algorithm: 'gzip',
+            test: new RegExp('\\.(js|css)$'),
+            threshold: 10240,
+            minRatio: 0.9
+        }),
+        ...webpackBase.plugins
+    ]
 });
 
 del(['dist/**'], {
@@ -33,9 +44,6 @@ module.exports = [
         entry: {
             cryptojs: 'crypto-js',
         },
-        plugins: [
-            ...webpackBase.plugins,
-        ],
         externals: {},
         output: {
             ...webpackBase.output,
@@ -47,9 +55,6 @@ module.exports = [
         entry: {
             react: 'react',
         },
-        plugins: [
-            ...webpackBase.plugins,
-        ],
         externals: {},
         output: {
             ...webpackBase.output,
@@ -61,9 +66,6 @@ module.exports = [
         entry: {
             dom: 'react-dom'
         },
-        plugins: [
-            ...webpackBase.plugins,
-        ],
         externals: {
             react: 'react',
         },
@@ -79,9 +81,6 @@ module.exports = [
             intl: 'react-intl-universal',
 
         },
-        plugins: [
-            ...webpackBase.plugins,
-        ],
         externals: {
             'react-dom': 'dom',
             'react': 'react'
