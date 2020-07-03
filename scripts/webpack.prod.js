@@ -24,14 +24,13 @@ const config = Object.assign({}, webpackBase, {
     },
     ...prodConfig,
     plugins: [
+        ...webpackBase.plugins,
         new CompressionWebpackPlugin({
             filename: '[path].gz[query]',
             algorithm: 'gzip',
-            test: new RegExp('\\.(js|css)$'),
-            threshold: 10240,
+            test: /\.(js|css)$/,
             minRatio: 0.8
-        }),
-        ...webpackBase.plugins
+        })
     ]
 });
 
