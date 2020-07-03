@@ -24,7 +24,7 @@ const config = Object.assign({}, webpackBase, {
             algorithm: 'gzip',
             test: new RegExp('\\.(js|css)$'),
             threshold: 10240,
-            minRatio: 0.9
+            minRatio: 0.8
         }),
         ...webpackBase.plugins
     ]
