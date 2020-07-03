@@ -13,7 +13,7 @@
         var ele = document.getElementById('<%= htmlWebpackPlugin.options.namespace %>');
         require.config({
             baseUrl: '.',
-            waitSeconds: -1
+            waitSeconds: 0
         });
         require(['index'], function (module) {
             ele.innerHTML="";
