@@ -8,12 +8,12 @@
 </head>
 <body>
     <div id="<%= htmlWebpackPlugin.options.namespace %>"></div>
-    <script src="http://apps.bdimg.com/libs/require.js/2.1.11/require.min.js"></script>
+    <script src="assets/js/require.min.js"></script>
     <script>
         var ele = document.getElementById('<%= htmlWebpackPlugin.options.namespace %>');
         require.config({
             baseUrl: '.',
-            waitSeconds: 30000
+            waitSeconds: 0
         });
         require(['index'], function (module) {
             ele.innerHTML="";
