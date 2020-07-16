@@ -1,30 +1,23 @@
 import React from "react";
-import {connect} from 'dva';
 import intl from 'react-intl-universal';
 import {Button, Col, DatePicker, Row, Space} from 'antd';
 import {Line} from '@ant-design/charts';
-import {needLogin, needPermission} from '@components/Permission';
+import { viewer } from '@components/Mvc';
 import styles from './style.less';
-import Base from './base';
+import Ctrl from './ctrl';
 
-export default @connect(
-    ({pingUseRate, global}) => ({
-        ...pingUseRate,
-        socketInstance: global.socketService
-    }),
-    dispatch => ({
-        getViewData: payload => dispatch({
-            type: 'pingUseRate/getViewData',
-            payload
-        })
-    })
-)
-@needPermission([])
-@needLogin
-class View extends Base {
+export default
+@Ctrl.bind
+@viewer
+class Index {
+    constructor() {
+        this.state = {
+            test: 1
+        }
+    }
     render() {
         const { viewData } = this.props;
-        const { startDate, endDate } = this.state;
+        const { startDate, endDate, test } = this.state;
         const jsonObject = viewData && viewData['jsonObject'] || {};
         const days = jsonObject['allPings'] && jsonObject['allPings']['time'] || [];
         const values = jsonObject['allPings'] && jsonObject['allPings']['metricValue'] || [];
@@ -80,21 +73,21 @@ class View extends Base {
                     <Col span={24}>
                         <section>
                             <Space size="middle">
-                                    <span>
-                                        {intl.get('start_date')}
-                                        &nbsp;
-                                        <DatePicker
-                                            value={startDate}
-                                            format={this.dateFormat}
-                                            allowClear={false}
-                                            disabledDate={this.handleDisableDate}
-                                            onChange={this.handleStartDatePickerChange}
-                                            inputReadOnly
-                                            showToday={false}
-                                        />
-                                    </span>
+                            <span>
+                                {intl.get('start_date')}
+                                &nbsp;
+                                <DatePicker
+                                    value={startDate}
+                                    format={this.dateFormat}
+                                    allowClear={false}
+                                    disabledDate={this.handleDisableDate}
+                                    onChange={this.handleStartDatePickerChange}
+                                    inputReadOnly
+                                    showToday={false}
+                                />
+                            </span>
                                 <span>
-                                        {intl.get('end_date')}
+                                {intl.get('end_date')}
                                     &nbsp;
                                     <DatePicker
                                         value={endDate}
@@ -104,7 +97,7 @@ class View extends Base {
                                         onChange={this.handleEndDatePickerChange}
                                         inputReadOnly
                                     />
-                                    </span>
+                            </span>
                                 <Button
                                     type="primary"
                                     onClick={this.query}

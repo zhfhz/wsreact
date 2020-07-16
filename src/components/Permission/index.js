@@ -21,13 +21,23 @@ export const clearUserPermissions = () => {
 };
 
 /**
- * 检查是否包含指定权限 或校验
+ * 检查是否同时包含指定权限
  */
-export const hasPermission = (permissions = []) => {
-    if (permissions instanceof Array && permissions.length) {
-        return permissions && permissions.length && permissions.find(item => UserPermissions.indexOf(item) > -1);
+export const CheckEveryPermission = (permissions = []) => {
+    if (permissions instanceof Array) {
+        return permissions.length ? permissions.every(item => UserPermissions.indexOf(item) > -1) : true;
     }
-    return true;
+    return permissions ? CheckEveryPermission([permissions]) : true;
+};
+
+/**
+ * 检查是否包含给定的权限之一
+ */
+export const CheckOnePermission = (permissions = []) => {
+    if (permissions instanceof Array) {
+        return permissions.length ? permissions.some(item => UserPermissions.indexOf(item) > -1) : true;
+    }
+    return permissions ? CheckOnePermission([permissions]) : true;
 };
 
 /**
@@ -42,13 +52,16 @@ export const isLogin = () => {
  * @param permissions
  * @returns {function(*): function(...[*]=)}
  */
-export const needPermission = (permissions) => {
+export const needPermission = (ands, ors) => {
     return Compo => {
-        return (props) => {
-            if (hasPermission(permissions)) {
-                return <Compo {...props}/>
-            } else {
-                return <NotFound />
+        return class NeedPermission extends React.PureComponent {
+            render() {
+                const { props } = this;
+                if (CheckEveryPermission(ands instanceof Array ? ands : ands ? [ands] : []) && CheckOnePermission(ors instanceof Array ? ors : ors ? [ors] : [])) {
+                    return <Compo {...props}/>
+                } else {
+                    return <NotFound />
+                }
             }
         }
     }
@@ -59,11 +72,14 @@ export const needPermission = (permissions) => {
  * @returns {function(*): function(...[*]=)}
  */
 export const needLogin = Compo => {
-    return (props) => {
-        if (isLogin()) {
-            return <Compo {...props} />;
-        } else {
-            return <Redirect to="/sign/in" push={true} />;
+    return class NeedLogin extends React.PureComponent {
+        render() {
+            const { props } = this;
+            if (isLogin()) {
+                return <Compo {...props} />;
+            } else {
+                return <Redirect to="/sign/in" push={true} />;
+            }
         }
     }
 };

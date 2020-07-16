@@ -51,7 +51,7 @@ class LazyLoader extends React.Component {
   componentWillUnmount() {
     const { match: { params: { module } } } = this.props;
     ReactDOM.unmountComponentAtNode(this.mountedDom);
-    this.mountedDom.parentElement.removeChild(this.mountedDom);
+    this.mountedParent.removeChild(this.mountedDom);
     this.mountedDom = null;
     setTimeout(() => {
       // 删除此插件的依赖包以释放内存

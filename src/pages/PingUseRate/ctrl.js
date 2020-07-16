@@ -1,15 +1,33 @@
 import React from "react";
 import moment from "moment";
+import {needLogin, needPermission} from '@components/Permission';
+import { model } from '@components/Mvc';
+import { controller } from '@components/Mvc';
 
 export default
-class Base extends React.PureComponent {
+@controller(
+    needLogin,
+    needPermission([]),
+    model(
+        ({pingUseRate, global}) => ({
+            ...pingUseRate,
+            socketInstance: global.socketService
+        }),
+        dispatch => ({
+            getViewData: payload => dispatch({
+                type: 'pingUseRate/getViewData',
+                payload
+            })
+        })
+    )
+)
+class Ctrl extends React.PureComponent {
     state = {
         startDate: moment().add(-1, 'months'),
         endDate: moment(),
         useAnimate: true,
     };
     dateFormat = 'yyyy-MM-DD';
-
     componentDidMount() {
         const {socketInstance} = this.props;
         // 监听socket
