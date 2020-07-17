@@ -33,7 +33,6 @@ class LazyLoader extends React.Component {
   componentDidUpdate() {
     const { match: { url = '' } } = this.props;
     if (this.mountChild) {
-      this.mountedParent.appendChild(this.mountedDom);
       this.mountChild(this.mountedDom, url);
       this.mountChild = null;
     }
@@ -46,13 +45,16 @@ class LazyLoader extends React.Component {
       const div = document.createElement('div');
       div.id=`${module}_Root`;
       this.mountedDom = div;
+      this.mountedParent.appendChild(this.mountedDom);
     }
   }
   componentWillUnmount() {
     const { match: { params: { module } } } = this.props;
-    ReactDOM.unmountComponentAtNode(this.mountedDom);
-    this.mountedParent.removeChild(this.mountedDom);
-    this.mountedDom = null;
+    if (this.mountedDom.parentElement === this.mountedParent) {
+      ReactDOM.unmountComponentAtNode(this.mountedDom);
+      this.mountedParent.removeChild(this.mountedDom);
+      this.mountedDom = null;
+    }
     setTimeout(() => {
       // 删除此插件的依赖包以释放内存
       window[`webpackJson${module}`] = null;
