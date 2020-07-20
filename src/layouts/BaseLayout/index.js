@@ -1,12 +1,13 @@
-import {Badge, Layout} from 'antd';
+import {Badge, Layout, Avatar, Button} from 'antd';
 import React from "react";
 import {connect} from "dva";
+import {DesktopOutlined, UserOutlined} from "@ant-design/icons";
 import {MenuFoldOutlined, MenuUnfoldOutlined} from '@ant-design/icons';
 import logoImg from '@assets/image/logo.png';
 import styles from './style.less';
 import LocaleSelect from '@components/LocaleSelect';
 import NavMenu from '@components/NavMenu';
-import UserMenu from '@components/UserMenu';
+import DropdownMenu from '@components/DropdownMenu';
 
 const {Header, Content, Sider, Footer} = Layout;
 
@@ -41,18 +42,22 @@ class BaseLayout extends React.Component {
                 onClick: null,
                 wrapper: ({children}) => (<Badge dot={1}>{children}</Badge>),
                 name: 'alert',
+                icon: <DesktopOutlined />
             },
             {
                 onClick: null,
                 name: 'forget_pwd',
+                icon: <DesktopOutlined />
             },
             {
                 onClick: null,
                 name: 'settings',
+                icon: <DesktopOutlined />
             },
             {
                 onClick: logout,
                 name: 'logout',
+                icon: <DesktopOutlined />
             }
         ];
         const langArr = location.search.match(/lang=([^&]+)/);
@@ -82,12 +87,19 @@ class BaseLayout extends React.Component {
                             })}
                         </div>
                         <div className={styles.systemBar}>
-                            <UserMenu count={1} menus={menus}/>
+                            <DropdownMenu key="AvailableAcountMenu" menus={menus}>
+                                <Button>我的集团</Button>
+                            </DropdownMenu>
                             <LocaleSelect
                                 locales={locales}
                                 onChange={onSelectLocale}
                                 defaultValue={currentLocale || ''}
                             />
+                            <DropdownMenu key="CurrentUserMenu" menus={menus}>
+                                <Badge dot={1}>
+                                    <Avatar shape="square" icon={<UserOutlined/>}/>
+                                </Badge>
+                            </DropdownMenu>
                         </div>
                     </Header>
                     <Content

@@ -89,6 +89,33 @@
       vertical-align: top;
       margin-left: 10px;
     }
+    .formElementStyle {
+      background-color: transparent;
+      border-color: transparent;
+      color: white;
+      box-shadow: none;
+      &:hover {
+        border-color: white;
+      }
+    }
+    :global {
+      .ziot-btn {
+        .formElementStyle;
+        &.ziot-dropdown-open {
+          opacity: .4;
+        }
+      }
+      .ziot-select-single:not(.ziot-select-customize-input) {
+        .ziot-select-selector {
+          .formElementStyle;
+        }
+        &.ziot-select-open {
+          .ziot-select-selector {
+            opacity: 0.4!important;
+          }
+        }
+      }
+    }
   }
   .signForm {
     width: 484px;

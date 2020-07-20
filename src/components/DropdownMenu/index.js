@@ -1,13 +1,12 @@
 import React from "react";
-import {DesktopOutlined, UserOutlined} from "@ant-design/icons";
 import intl from "react-intl-universal";
-import {Avatar, Badge, Dropdown, Menu} from "antd";
+import {Dropdown, Menu} from "antd";
 
 const {Item, SubMenu} = Menu, renderMenuItem = subMenus => {
     return subMenus.map(item => (
         <Item
             key={item.path}
-            icon={<DesktopOutlined/>}
+            icon={item.icon}
             title={intl.get(item.name)}
             onClick={item.onClick}
         >
@@ -24,7 +23,7 @@ const {Item, SubMenu} = Menu, renderMenuItem = subMenus => {
                         return (
                             <SubMenu
                                 key={item.path}
-                                icon={<DesktopOutlined/>}
+                                icon={item.icon}
                                 title={intl.get(item.name)}
                             >
                                 {renderMenuItem(item.children)}
@@ -39,17 +38,16 @@ const {Item, SubMenu} = Menu, renderMenuItem = subMenus => {
     );
 };
 
-export default ({ count = 0, menus = [] }) => {
+export default ({ children, menus = [] }) => {
     return (
         <Dropdown
+            trigger="click"
             overlay={renderMenu(menus)}
             overlayStyle={{
                 minWidth: 150
             }}
         >
-            <Badge dot={count >= 1}>
-                <Avatar shape="square" icon={<UserOutlined/>}/>
-            </Badge>
+            {children}
         </Dropdown>
     );
 };
