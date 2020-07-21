@@ -7,11 +7,11 @@ import dynamic from 'dva/dynamic';
  * @param component
  */
 export const dynamicWrapper = (app, models, component) => {
-    return dynamic({
-        app,
-        models: () => models,
-        component: () => component
-    })
+  return dynamic({
+    app,
+    models: () => models,
+    component: () => component,
+  });
 };
 
 /**
@@ -21,20 +21,21 @@ export const dynamicWrapper = (app, models, component) => {
  * @returns {[]}
  */
 export const floorTree = (treeData, childField) => {
-    // treeData 是数组构建一个根节点
-    const data = treeData instanceof Array ? {[childField]: treeData} : treeData;
-    const result = [];
-    const loop = (arr, parent = null) => {
-        arr.forEach(item => {
-            result.push({
-                ...item,
-                parent,
-            });
-            if (item[childField]) {
-                loop(item[childField], item);
-            }
-        })
-    };
-    loop(data[childField]);
-    return result;
+  // treeData 是数组构建一个根节点
+  const data =
+    treeData instanceof Array ? { [childField]: treeData } : treeData;
+  const result = [];
+  const loop = (arr, parent = null) => {
+    arr.forEach((item) => {
+      result.push({
+        ...item,
+        parent,
+      });
+      if (item[childField]) {
+        loop(item[childField], item);
+      }
+    });
+  };
+  loop(data[childField]);
+  return result;
 };

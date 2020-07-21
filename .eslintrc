@@ -1,7 +1,7 @@
 {
     "root": true,
     "parserOptions": {
-        "ecmaVersion": 2017,
+        "ecmaVersion": 2015,
         "sourceType": "module",
         "ecmaFeatures": {
             "jsx": true
@@ -13,16 +13,27 @@
         "node": true,
         "commonjs": true
     },
-    "plugins": [
-        "react"
-    ],
+    "settings": {
+        "import/resolver": {
+            "webpack": {
+                "config": "scripts/webpack.base.js"
+            }
+        }
+    },
+    "plugins": ["prettier"],
     "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended"
+        "plugin:prettier/recommended",
+        "prettier/flowtype",
+        "prettier/react",
+        "prettier/standard"
     ],
     "parser": "babel-eslint",
     "rules": {
         "react/display-name": 0,
-        "react/prop-types": 0
+        "react/prop-types": 0,
+        "react/jsx-filename-extension": [0, { "extensions": [".js", ".jsx"] }],
+        "global-require": 0,
+        "react/jsx-props-no-spreading": 0,
+        "prettier/prettier": ["error", {"singleQuote": true, "parser": "flow", "usePrettierrc": false}]
     }
 }

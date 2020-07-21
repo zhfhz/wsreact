@@ -3,9 +3,6 @@
   <component name="JavaScriptSettings">
     <option name="languageLevel" value="JSX" />
   </component>
-  <component name="ProjectRootManager">
-    <output url="file://$PROJECT_DIR$/out" />
-  </component>
   <component name="WebPackConfiguration">
     <option name="path" value="$PROJECT_DIR$/scripts/webpack.base.js" />
   </component>

@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from "react-dom";
+import ReactDOM from 'react-dom';
 
 class LazyLoader extends React.Component {
   constructor(args) {
@@ -12,44 +12,62 @@ class LazyLoader extends React.Component {
     };
   }
   componentDidMount() {
-    const { match: { params: { module } } } = this.props;
-    window['require']([`plugins/${module}/index`], () => {
-      window['require']([`${module}`], module => {
-        if (module.default) {
-          this.mountChild = module.default;
-          this.setState({
-            loaded: true,
-            err: false,
-          })
-        }
-      })
-    }, () => {
-      this.setState({
-        err: true,
-        loaded: true
-      });
-    });
+    const {
+      match: {
+        params: { module },
+      },
+    } = this.props;
+    window['require'](
+      [`plugins/${module}/index`],
+      () => {
+        window['require']([`${module}`], (module) => {
+          if (module.default) {
+            this.mountChild = module.default;
+            this.setState({
+              loaded: true,
+              err: false,
+            });
+          }
+        });
+      },
+      () => {
+        this.setState({
+          err: true,
+          loaded: true,
+        });
+      }
+    );
   }
   componentDidUpdate() {
-    const { match: { url = '' } } = this.props;
+    const {
+      match: { url = '' },
+    } = this.props;
     if (this.mountChild) {
       this.mountChild(this.mountedDom, url);
       this.mountChild = null;
     }
   }
 
-  getMountDom = dom => {
-    const { match: { params: { module } } } = this.props;
+  getMountDom = (dom) => {
+    const {
+      match: {
+        params: { module },
+      },
+    } = this.props;
     if (dom) {
       this.mountedParent = dom;
       const div = document.createElement('div');
-      div.id=`${module}_Root`;
+      div.id = `${module}_Root`;
       this.mountedDom = div;
       this.mountedParent.appendChild(this.mountedDom);
     }
-  }
+  };
   componentWillUnmount() {
-    const { match: { params: { module } } } = this.props;
+    const {
+      match: {
+        params: { module },
+      },
+    } = this.props;
     if (this.mountedDom.parentElement === this.mountedParent) {
       ReactDOM.unmountComponentAtNode(this.mountedDom);
       this.mountedParent.removeChild(this.mountedDom);
@@ -62,13 +80,15 @@ class LazyLoader extends React.Component {
       window['requirejs'].undef(`plugins/${module}/index`);
       window['requirejs'].undef(module);
       // 删除插件的script标签
-      const scripts = document.querySelectorAll(`script[src^=\\.\\/plugins\\/${module}\\/`) || [];
-      scripts.forEach(item => {
+      const scripts =
+        document.querySelectorAll(`script[src^=\\.\\/plugins\\/${module}\\/`) ||
+        [];
+      scripts.forEach((item) => {
         item.parentElement.removeChild(item);
       });
       // 删除插件的style标签
       const styles = document.querySelectorAll(`style[data-project=${module}]`);
-      styles.forEach(item => {
+      styles.forEach((item) => {
         item.parentElement.removeChild(item);
       });
     }, 1000);
@@ -78,9 +98,11 @@ class LazyLoader extends React.Component {
     const { loaded, err } = this.state;
     return (
       <div ref={this.getMountDom}>
-        {
-          loaded ? (err && <div>没有找到插件，请检查配置</div> || null) : <div>Loading...</div>
-        }
+        {loaded ? (
+          (err && <div>没有找到插件，请检查配置</div>) || null
+        ) : (
+          <div>Loading...</div>
+        )}
       </div>
     );
   }
@@ -88,4 +110,4 @@ class LazyLoader extends React.Component {
 
 export default (props) => {
   return <LazyLoader {...props} />;
-}
+};

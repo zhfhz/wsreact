@@ -1,32 +1,30 @@
-import {getData} from './service';
+import { getData } from './service';
 
 export default {
-    namespace: "pingUseRate",
-    state: {
-        viewData: null,
+  namespace: 'pingUseRate',
+  state: {
+    viewData: null,
+  },
+  effects: {
+    *getViewData({ payload }, { put, call }) {
+      const { data, ok } = yield call(getData, { ...payload });
+      if (ok) {
+        yield put({
+          type: 'save',
+          payload: data,
+        });
+      }
     },
-    effects: {
-        * getViewData({ payload }, { put, call }) {
-            const {data, ok} = yield call(getData, {...payload});
-            if (ok) {
-                yield put({
-                    type: 'save',
-                    payload: data
-                });
-            }
-        }
+  },
+  reducers: {
+    save(state, { payload }) {
+      return {
+        ...state,
+        viewData: {
+          ...payload,
+        },
+      };
     },
-    reducers: {
-        save(state, { payload }) {
-            return {
-                ...state,
-                viewData: {
-                    ...payload
-                }
-            }
-        }
-    },
-    subscribe: {
-
-    }
-}
+  },
+  subscribe: {},
+};

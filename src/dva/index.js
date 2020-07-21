@@ -8,10 +8,9 @@ app.use(createLoading({}));
 // 遍历global Model
 let files = require.context('../models', true, /\.js$/);
 files
-    .keys()
-    .map(key => files(key))
-    .forEach(module => app.model(module.default));
-
+  .keys()
+  .map((key) => files(key))
+  .forEach((module) => app.model(module.default));
 
 // 页面model路由加载时动态载入
 
@@ -21,4 +20,4 @@ files
 //     .map(key => files(key))
 //     .forEach(module => app.model(module.default));
 
-export  default  app;
+export default app;

@@ -11,7 +11,18 @@
     "build:prod": "webpack --config ./scripts/webpack.prod.js",
     "build:dev": "webpack --config ./scripts/webpack.dev.js",
     "build:plugin": "webpack --config ./scripts/webpack.plugin.js",
-    "analysis": "webpack --config ./scripts/webpack.analysis.js"
+    "analysis": "webpack --config ./scripts/webpack.analysis.js",
+    "lint-css": "stylelint 'src/**/*.less' --fix"
+  },
+  "lint-staged": {
+    "src/**/*.js": [
+      "eslint --fix"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "author": "",
   "license": "ISC",
@@ -65,19 +76,31 @@
     "css-loader": "^3.5.3",
     "cssnano": "^4.1.10",
     "eslint": "^7.0.0",
-    "eslint-import-resolver-webpack": "^0.12.1",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-import-resolver-webpack": "^0.12.2",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.0",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
+    "husky": "^4.2.5",
     "json-loader": "^0.5.7",
     "less": "^3.11.2",
     "less-loader": "^6.1.0",
+    "lint-staged": "^10.2.11",
     "postcss": "^7.0.31",
     "postcss-cssnext": "^3.1.0",
     "postcss-import": "^12.0.1",
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.7.0",
+    "prettier": "^2.0.5",
+    "prettier-eslint": "^11.0.0",
     "style-loader": "^1.2.1",
+    "stylelint": "^13.6.1",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-order": "^4.1.0",
     "url-loader": "^4.1.0",
     "webpack": "^4.43.0",
     "webpack-bundle-analyzer": "^3.8.0",
