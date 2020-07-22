@@ -13,6 +13,7 @@
     "build:dev": "cross-env webpack --config ./scripts/webpack.dll.js && webpack --config ./scripts/webpack.dev.js",
     "build:plugin": "webpack --config ./scripts/webpack.plugin.js",
     "analysis": "webpack --config ./scripts/webpack.analysis.js",
+    "dll:analysis": "webpack --config ./scripts/webpack.dll.analysis.js",
     "lint-css": "stylelint 'src/**/*.less' --fix"
   },
   "lint-staged": {
@@ -43,7 +44,7 @@
     "history": "4",
     "increase-memory-limit": "^1.0.7",
     "md-js": "^1.0.4",
-    "moment": "^2.18.1",
+    "moment": "^2.27.0",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-addons-css-transition-group": "^15.6.2",

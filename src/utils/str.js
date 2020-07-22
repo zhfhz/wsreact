@@ -1,13 +1,17 @@
-import Crypto from 'crypto-js';
+export const CryptoJS = require('crypto-js/core');
+
+export const AES = require('crypto-js/aes');
 
 export const HmacSHA256 = require('crypto-js/hmac-sha256');
 
-const {
-  mode: { CBC },
-  AES,
-  enc: { Latin1, Utf8 },
-  pad: { ZeroPadding },
-} = Crypto;
+export const Utf8 = require('crypto-js/enc-utf8');
+
+export const ZeroPadding = require('crypto-js/pad-zeropadding');
+
+export const CBC = CryptoJS.mode.CBC;
+
+export const Latin1 = CryptoJS.enc.Latin1;
+
 const AES_KEY = 'VTlRUB1fQplU2FnU';
 const AES_VAL = 'hTHBk7pioapRgTdc';
 

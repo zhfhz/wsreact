@@ -24,7 +24,7 @@ export default
 class Ctrl extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.dateFormat = 'yyyy-MM-DD';
+    this.dateFormat = 'YYYY-MM-DD';
     this.state = {
       startDate: moment().add(-1, 'months'),
       endDate: moment(),

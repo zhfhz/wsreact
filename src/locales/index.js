@@ -22,7 +22,10 @@ files
     };
   });
 locales.antd['en-US'] = antdEnUS;
-locales.moment['en-US'] = () => moment.locale('en-gb');
+locales.moment['en-US'] = () =>
+  require.ensure(['moment', 'moment/locale/en-gb'], (require) => {
+    require('moment').locale('en-gb');
+  });
 
 // --------------------------------------------------------------
 // 处理简体中文
@@ -37,7 +40,10 @@ files
     };
   });
 locales.antd['zh-CN'] = antdZhCN;
-locales.moment['zh-CN'] = () => moment.locale('zh-cn');
+locales.moment['zh-CN'] = () =>
+  require.ensure(['moment', 'moment/locale/zh-cn'], (require) => {
+    require('moment').locale('zh-cn');
+  });
 
 // --------------------------------------------------------------
 // 处理繁体中文
@@ -52,6 +58,9 @@ files
     };
   });
 locales.antd['zh-TW'] = antdZhTW;
-locales.moment['zh-TW'] = () => moment.locale('zh-tw');
+locales.moment['zh-TW'] = () =>
+  require.ensure(['moment', 'moment/locale/zh-tw'], (require) => {
+    require('moment').locale('zh-tw');
+  });
 
 export default locales;
