@@ -1,14 +1,10 @@
 const webpackProd = require('./webpack.prod');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin;
 
-const prodConfig = {
+const prodConfig = {};
 
-};
-
-module.exports =  Object.assign({}, webpackProd[webpackProd.length - 1], {
-    ...prodConfig,
-    plugins: [
-        ...webpackProd[webpackProd.length - 1].plugins,
-        new BundleAnalyzerPlugin()
-    ],
+module.exports = Object.assign({}, webpackProd, {
+  ...prodConfig,
+  plugins: [...webpackProd.plugins, new BundleAnalyzerPlugin()],
 });

@@ -57,7 +57,7 @@ function MyRouter(props) {
           );
         }
       )}
-      <Route path="*" component={NotFound} />
+      <Route key="notfound" path="*" component={NotFound} />
     </Switch>
   );
 }

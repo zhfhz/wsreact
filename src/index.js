@@ -1,6 +1,4 @@
 import React from 'react';
-// import 'react-app-polyfill/ie11';
-// import 'react-app-polyfill/stable';
 import dva from '@/dva';
 import App from '@/App';
 import '@common/css/common.less';

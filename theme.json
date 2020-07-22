@@ -6,6 +6,5 @@
   "layout-footer-padding": "0 16px",
   "btn-primary-bg": "#23ad44",
   "border-radius-base": "4px",
-  "input-border-color": "#23b7e5",
-  "picker-border-color": "#23b7e5"
+  "input-border-color": "#23b7e5"
 }

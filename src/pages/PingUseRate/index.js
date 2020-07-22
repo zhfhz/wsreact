@@ -94,6 +94,7 @@ class Index extends React.PureComponent {
                     disabledDate={this.handleDisableDate}
                     onChange={this.handleEndDatePickerChange}
                     inputReadOnly
+                    showToday={false}
                   />
                 </span>
                 <Button type="primary" onClick={this.query}>
