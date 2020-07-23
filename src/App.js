@@ -3,9 +3,11 @@ import intl from 'react-intl-universal';
 import locales from '@locales';
 import { ConfigProvider } from 'antd';
 import { Router } from 'dva/router';
-import MyRouter, { history } from '@router';
+import MyRouter, { saveHistory } from '@router';
 import routes from '@routes';
 import { connect } from 'dva';
+
+const createHashHistory = require('history').createHashHistory;
 
 const packageConfig = require('../package.json');
 
@@ -23,6 +25,9 @@ class App extends React.Component {
     };
     const { initWebSocket } = props;
     initWebSocket();
+    const { basename } = props;
+    this.history = createHashHistory({ basename });
+    saveHistory(this.history);
   }
 
   componentDidMount() {
@@ -55,7 +60,6 @@ class App extends React.Component {
 
   render() {
     const {
-      props: { basename },
       state: { currentLocale },
     } = this;
     return (
@@ -63,7 +67,7 @@ class App extends React.Component {
         locale={locales.antd[currentLocale]}
         prefixCls={packageConfig.name}
       >
-        <Router history={history} basename={`${basename}`}>
+        <Router history={this.history}>
           <MyRouter routes={routes} />
         </Router>
       </ConfigProvider>

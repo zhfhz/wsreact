@@ -4,14 +4,17 @@ import { Spin } from 'antd';
 import dynamic from 'dva/dynamic';
 import NotFound from '@pages/NotFound';
 
-export const history = require('history').createHashHistory();
+export let history = null;
 
-// 第一次加载页面的 路由不变的话不会执行路由监听函数
-history.isFirstPage = true;
-const unListen = history.listen(function () {
-  delete history.isFirstPage;
-  unListen();
-});
+export const saveHistory = (historyInstance) => {
+  history = historyInstance;
+  // 第一次加载页面的 路由不变的话不会执行路由监听函数
+  history.isFirstPage = true;
+  const unListen = history.listen(function () {
+    delete history.isFirstPage;
+    unListen();
+  });
+};
 
 dynamic.setDefaultLoadingComponent(() => (
   <Spin indicator={<div>Loading...</div>} />

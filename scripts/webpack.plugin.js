@@ -1,32 +1,11 @@
-const path = require('path');
-const webpackBase = require('./webpack.base');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const packageConfig = require('../package.json');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpackProd = require('./webpack.prod');
 
-const devConfig = {
-  mode: 'production',
-  devtool: 'cheap-module-source-map',
-};
-const config = Object.assign({}, webpackBase, {
-  devServer: {
-    hot: false,
-  },
+const config = Object.assign({}, webpackProd, {
   output: {
-    ...webpackBase.output,
-    publicPath: `./plugins/${packageConfig.name}/`,
-    library: `${packageConfig.name}`,
+    ...webpackProd.output,
+    publicPath: `./plugins/demo/`,
+    library: 'demo',
   },
-  ...devConfig,
-  plugins: [
-    ...webpackBase.plugins,
-    new CompressionWebpackPlugin({
-      filename: '[path].gz[query]',
-      algorithm: 'gzip',
-      test: /\.(js|css)$/,
-      minRatio: 0.8,
-    }),
-  ],
 });
 
 config.module.rules.forEach((rule) => {
@@ -34,22 +13,10 @@ config.module.rules.forEach((rule) => {
     rule.use.find((item) => {
       if (item.loader === 'style-loader') {
         item.options = item.options || {};
-        item.options.attributes = { 'data-project': packageConfig.name };
+        item.options.attributes = { 'data-project': 'demo' };
       }
     });
   }
 });
 
-module.exports = Object.assign({}, config, {
-  plugins: [
-    new CleanWebpackPlugin(),
-    new CopyWebpackPlugin([
-      // 复制插件
-      {
-        from: path.join(__dirname, '../src/plugins'),
-        to: path.join(__dirname, '../dist/plugins'),
-      },
-    ]),
-    ...config.plugins,
-  ],
-});
+module.exports = config;

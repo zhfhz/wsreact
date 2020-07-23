@@ -1,0 +1,18 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>react测试</title><link href="https://libs.cdnjs.net/animate.css/4.1.0/animate.css" rel="stylesheet"></head><body><div id="ziot"></div><script src="http://apps.bdimg.com/libs/require.js/2.1.11/require.min.js"></script><script>var ele = document.getElementById('ziot');
+        require.config({
+          baseUrl: '.',
+          waitSeconds: 0,
+          paths: {
+            _dll_vendor: 'assets/js/dll/_dll_vendor' // 框架项目以及插件的公共库 react,react-dom,react-router-dom,dva
+          },
+          shim: {
+            _dll_vendor: {
+              deps:[],
+              exports: ''
+            }
+          }
+        });
+        require(['index'], function (module) {
+            ele.innerHTML="";
+            module.default(ele);
+        })</script></body></html>
