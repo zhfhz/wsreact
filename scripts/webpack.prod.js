@@ -1,4 +1,5 @@
 const webpackDev = require('./webpack.dev');
+const path = require('path');
 
 const prodConfig = {
   mode: 'production',
