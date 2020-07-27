@@ -7,7 +7,8 @@
   "scripts": {
     "fix-memory-limit": "cross-env LIMIT=4096 increase-memory-limit",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --hot --inline --config ./scripts/webpack.server.js",
+    "dev": "webpack-dev-server --hot --inline --config ./scripts/webpack.dev.js",
+    "prod": "webpack-dev-server --hot --inline --config ./scripts/webpack.prod.js",
     "dll": "cross-env webpack --config ./scripts/webpack.dll.js",
     "build:prod": "cross-env webpack --config ./scripts/webpack.dll.js && webpack --config ./scripts/webpack.prod.js",
     "build:dev": "cross-env webpack --config ./scripts/webpack.dll.js && webpack --config ./scripts/webpack.dev.js",
@@ -92,6 +93,8 @@
     "less": "^3.11.2",
     "less-loader": "^6.1.0",
     "lint-staged": "^10.2.11",
+    "node-cmd": "^3.0.0",
+    "pm2": "^4.4.0",
     "postcss": "^7.0.31",
     "postcss-cssnext": "^3.1.0",
     "postcss-import": "^12.0.1",
