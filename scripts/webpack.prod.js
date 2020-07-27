@@ -7,6 +7,7 @@ const prodConfig = {
   devServer: {
     contentBase: path.join(__dirname, '../dist'),
     compress: true,
+    disableHostCheck: true,
     host: '0.0.0.0',
     port: 80,
     hot: true,
