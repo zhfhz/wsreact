@@ -2,7 +2,7 @@
   "apps":[
     {
       "name": "ziotApp",
-      "cwd": "src",
+      "cwd": ".",
       "script": "./scripts/server.js",
       "min_uptime": "60s",
       "max_restarts": 30,
