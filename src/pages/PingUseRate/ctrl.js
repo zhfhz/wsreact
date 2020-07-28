@@ -1,11 +1,10 @@
 import React from 'react';
 import moment from 'moment';
-import { needLogin, needPermission } from '@components/Permission';
+import { needPermission } from '@components/Permission';
 import { model, controller } from '@components/Mvc';
 
 export default
 @controller(
-  needLogin,
   needPermission([]),
   model(
     ({ pingUseRate, global }) => ({

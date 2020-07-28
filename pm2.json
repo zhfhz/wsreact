@@ -1,0 +1,17 @@
+{
+  "apps":[
+    {
+      "name": "ziotApp",
+      "cwd": "src",
+      "script": "./scripts/server.js",
+      "min_uptime": "60s",
+      "max_restarts": 30,
+      "exec_mode" : "cluster_mode",
+      "error_file" : "./logs/err.log",
+      "out_file": "./logs/out.log",
+      "pid_file": "./app.pid",
+      "watch": ["scripts", "package.json", "src", "theme.json"],
+      "ignore_watch" : ["src/plugins"]
+    }
+  ]
+}

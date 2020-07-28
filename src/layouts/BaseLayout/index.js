@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import { DesktopOutlined, UserOutlined } from '@ant-design/icons';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 import logoImg from '@assets/image/logo.png';
+import { needLogin } from '@components/Permission';
 import styles from './style.less';
 import LocaleSelect from '@components/LocaleSelect';
 import NavMenu from '@components/NavMenu';
@@ -12,6 +13,7 @@ import DropdownMenu from '@components/DropdownMenu';
 const { Header, Content, Sider, Footer } = Layout;
 
 export default
+@needLogin
 @connect(
   ({ global }) => ({
     ...global,
