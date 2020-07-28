@@ -17,6 +17,7 @@ class About extends React.PureComponent {
         <h3>{intl.get('about')}</h3>
         <Transition name="move-right">
           <p>{description}</p>
+          <p>热更新测试！！</p>
         </Transition>
       </div>
     );
