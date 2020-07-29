@@ -73,7 +73,9 @@ export default {
       };
     },
     onSelectLocale(state, { payload }) {
-      location.search = payload ? `?lang=${payload}` : '';
+      location.replace(
+        payload ? `?lang=${payload}${location.hash}` : location.hash
+      );
       return state;
     },
     save(state, payload) {
