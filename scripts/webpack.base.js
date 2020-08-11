@@ -41,7 +41,9 @@ const webpackTask = {
       ),
     },
   },
-  externals: {},
+  externals: {
+    'crypto-js': 'CryptoJs',
+  },
   module: {
     rules: [
       {

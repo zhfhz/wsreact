@@ -2,7 +2,9 @@ const webpackProd = require('./webpack.prod');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 
-const prodConfig = {};
+const prodConfig = {
+  devServer: {},
+};
 
 module.exports = Object.assign({}, webpackProd, {
   ...prodConfig,

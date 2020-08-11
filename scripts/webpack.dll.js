@@ -3,8 +3,10 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const resolve = (dir) => path.join(__dirname, '../', dir);
 
+const mode = 'development';
+
 module.exports = {
-  mode: 'production',
+  mode,
   entry: {
     vendor: [
       'react-app-polyfill/stable',
@@ -13,10 +15,6 @@ module.exports = {
       'react-dom',
       'react-router-dom',
       'dva',
-      // 'moment',
-      // 'moment/locale/en-gb',
-      // 'moment/locale/zh-cn',
-      // 'moment/locale/zh-tw',
     ],
   },
   output: {
@@ -32,8 +30,16 @@ module.exports = {
       ),
     },
   },
+  optimization: {
+    minimize: mode === 'production' ? true : false,
+  },
   plugins: [
     new CleanWebpackPlugin(),
+    // new webpack.DefinePlugin({
+    //   'process.env': {
+    //     NODE_ENV: mode,
+    //   },
+    // }),
     new webpack.DllPlugin({
       name: '_dll_[name]',
       path: path.join(

@@ -1,9 +1,13 @@
 const webpackDev = require('./webpack.dev');
+const webpack = require('webpack');
 const path = require('path');
 
 const prodConfig = {
   mode: 'production',
   devtool: 'cheap-module-source-map',
+  optimization: {
+    minimize: true,
+  },
   devServer: {
     contentBase: path.join(__dirname, '../dist'),
     compress: true,

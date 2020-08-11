@@ -15,13 +15,14 @@
           baseUrl: '.',
           waitSeconds: 0,
           paths: {
-            _dll_vendor: 'assets/js/dll/_dll_vendor' // 框架项目以及插件的公共库 react,react-dom,react-router-dom,dva
+            _dll_vendor: 'assets/js/dll/_dll_vendor',
+            CryptoJs: 'https://cdn.bootcdn.net/ajax/libs/crypto-js/4.0.0/crypto-js.min'
           },
           shim: {
             _dll_vendor: {
               deps:[],
               exports: ''
-            }
+            },
           }
         });
         require(['index'], function (module) {

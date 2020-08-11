@@ -1,12 +1,12 @@
-export const CryptoJS = require('crypto-js/core');
+import CryptoJS from 'crypto-js';
 
-export const AES = require('crypto-js/aes');
+export const AES = CryptoJS.AES;
 
-export const HmacSHA256 = require('crypto-js/hmac-sha256');
+export const HmacSHA256 = CryptoJS.HmacSHA256;
 
-export const Utf8 = require('crypto-js/enc-utf8');
+export const Utf8 = CryptoJS.enc.Utf8;
 
-export const ZeroPadding = require('crypto-js/pad-zeropadding');
+export const ZeroPadding = CryptoJS.pad.ZeroPadding;
 
 export const CBC = CryptoJS.mode.CBC;
 
