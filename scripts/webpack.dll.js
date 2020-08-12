@@ -3,7 +3,7 @@ const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const resolve = (dir) => path.join(__dirname, '../', dir);
 
-const mode = 'development';
+const mode = 'production';
 
 module.exports = {
   mode,
