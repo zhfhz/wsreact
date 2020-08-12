@@ -9,8 +9,9 @@ module.exports = {
   mode,
   entry: {
     vendor: [
-      'react-app-polyfill/stable',
-      'react-app-polyfill/ie9',
+      // 'react-app-polyfill/stable',
+      // 'react-app-polyfill/ie9',
+      // 'babel-polyfill',
       'react',
       'react-dom',
       'react-router-dom',

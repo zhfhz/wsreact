@@ -109,31 +109,37 @@ export const Socket = function (url, protocols, autoConnect) {
   let userClose = false;
   let keepAliveTime = null;
   this.connect = () => {
-    userClose = false;
-    webSocket = new WebSocket(url, protocols);
-    webSocket.onopen = () => {
-      this.connected = true;
-      console.log('websocket connected!');
-    };
-    webSocket.onclose = () => {
-      this.connected = false;
-      console.log('websocket connected!');
-      if (autoConnect && !userClose) {
-        setTimeout(() => this.reconnect(), 5000);
-      }
-    };
-    webSocket.onmessage = (event) => {
-      console.log('socket << ', event.data);
-    };
-    webSocket.onerror = (error) => {
-      console.log('websocket error', error);
-      this.connected = false;
-      errorCount++;
-      if (errorCount > 20) {
-        return;
-      }
-      setTimeout(() => this.reconnect(), 1000);
-    };
+    try {
+      userClose = false;
+      webSocket = new WebSocket(url, protocols);
+      webSocket.onopen = () => {
+        this.connected = true;
+        console.log('websocket connected!');
+      };
+      webSocket.onclose = () => {
+        this.connected = false;
+        console.log('websocket connected!');
+        if (autoConnect && !userClose) {
+          setTimeout(() => this.reconnect(), 5000);
+        }
+      };
+      webSocket.onmessage = (event) => {
+        console.log('socket << ', event.data);
+      };
+      webSocket.onerror = (error) => {
+        console.log('websocket error', error);
+        this.connected = false;
+        errorCount++;
+        if (errorCount > 20) {
+          return;
+        }
+        setTimeout(() => this.reconnect(), 1000);
+      };
+    } catch (e) {
+      console.error(
+        'current browser is not support Websocket. Parts functions of the site will dead.'
+      );
+    }
   };
 
   this.close = () => {

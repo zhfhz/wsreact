@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= htmlWebpackPlugin.options.title %></title>
-  <link href="https://libs.cdnjs.net/animate.css/4.1.0/animate.css" rel="stylesheet">
 </head>
 <body>
     <div id="<%= htmlWebpackPlugin.options.namespace %>"></div>
@@ -18,6 +17,7 @@
             _dll_vendor: 'assets/js/dll/_dll_vendor',
             CryptoJs: 'https://cdn.bootcdn.net/ajax/libs/crypto-js/4.0.0/crypto-js.min'
           },
+          alias:{},
           shim: {
             _dll_vendor: {
               deps:[],

@@ -5,8 +5,8 @@
       "@babel/preset-env",
       {
         "targets": {
-          "ie": 10,
-          "edge": 17,
+          "ie": 9,
+          "edge": 15,
           "firefox": 60,
           "chrome": 67,
           "safari": 11
@@ -21,7 +21,7 @@
      ["@babel/plugin-proposal-decorators", { "legacy": true }],
      ["@babel/plugin-proposal-class-properties", { "loose": true }],
      ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": true}, "ant"],
-     ["import", { "libraryName": "@ant-design/charts", "libraryDirectory": "lib"}, "charts"],
+     ["import", { "libraryName": "@ant-design/charts", "libraryDirectory": "es"}, "charts"],
      "@babel/plugin-transform-runtime"
    ]
 }

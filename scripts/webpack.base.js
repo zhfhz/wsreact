@@ -11,7 +11,7 @@ const distDirStr = path.resolve(__dirname, '../dist/');
 
 const webpackTask = {
   entry: {
-    index: path.resolve(__dirname, '../src/index.js'),
+    index: [/*'@babel/polyfill',*/ path.resolve(__dirname, '../src/index.js')],
   },
   output: {
     filename: '[name].js',
@@ -48,9 +48,17 @@ const webpackTask = {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        loader: 'babel-loader',
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                '@babel/preset-env', //使用这个预设，会根据浏览器来选择插件转化ES5
+              ],
+            },
+          },
+        ],
         exclude: [/\.json$/],
-        include: [/src/, /node_modules/],
       },
       {
         test: /\.(less|css)/,
@@ -95,7 +103,7 @@ const webpackTask = {
         ],
       },
       {
-        test: /\.(less|css)/,
+        test: /\.(less|css)$/,
         include: [/node_modules/],
         use: [
           {
