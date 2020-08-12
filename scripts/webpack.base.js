@@ -11,7 +11,7 @@ const distDirStr = path.resolve(__dirname, '../dist/');
 
 const webpackTask = {
   entry: {
-    index: [/*'@babel/polyfill',*/ path.resolve(__dirname, '../src/index.js')],
+    index: ['@babel/polyfill', path.resolve(__dirname, '../src/index.js')],
   },
   output: {
     filename: '[name].js',
