@@ -24,5 +24,6 @@
             ...                 // 更多参见 Antd Table Columns配置
         }]
         ...                     更多参见 Antd Table 配置
-
+    
+    scripts/webpack.base.js     // 页面拆分 后打包体积优化
     
