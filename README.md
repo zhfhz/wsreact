@@ -14,6 +14,15 @@
     package.name: 默认作为项目挂载点名称，项目入口js文件名
     
     
-#更新历史
+#更新
+
+    @components/Table
+        resizable               支持 动态调整表头宽度
+        columns:[{
+            editable: true,     // 支持单元格编辑,支持行内校验
+            rules:[]            // 字段校验规则 ，参见Antd Form,
+            ...                 // 更多参见 Antd Table Columns配置
+        }]
+        ...                     更多参见 Antd Table 配置
 
     

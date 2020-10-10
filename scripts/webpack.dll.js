@@ -7,6 +7,7 @@ const mode = 'production';
 
 module.exports = {
   mode,
+  devtool: mode === 'development' ? 'source-map' : false,
   entry: {
     vendor: [
       // 'react-app-polyfill/stable',
@@ -32,7 +33,7 @@ module.exports = {
     },
   },
   optimization: {
-    minimize: mode === 'production' ? true : false,
+    minimize: true,
   },
   plugins: [
     new CleanWebpackPlugin(),

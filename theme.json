@@ -6,5 +6,8 @@
   "layout-footer-padding": "0 16px",
   "btn-primary-bg": "#23ad44",
   "border-radius-base": "4px",
-  "input-border-color": "#23b7e5"
+  "card-head-padding": "20px",
+  "card-padding-base": "20px",
+  "card-head-height": "48px",
+  "card-head-padding": "0"
 }

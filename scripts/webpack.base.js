@@ -11,7 +11,7 @@ const distDirStr = path.resolve(__dirname, '../dist/');
 
 const webpackTask = {
   entry: {
-    index: ['@babel/polyfill', path.resolve(__dirname, '../src/index.js')],
+    index: path.resolve(__dirname, '../src/index.js'),
   },
   output: {
     filename: '[name].js',
@@ -40,9 +40,12 @@ const webpackTask = {
         '../node_modules/readable-stream'
       ),
     },
+    modules: ['src/components', 'node_modules'],
   },
   externals: {
     'crypto-js': 'CryptoJs',
+    moment: 'moment',
+    echarts: 'echarts',
   },
   module: {
     rules: [
@@ -52,9 +55,7 @@ const webpackTask = {
           {
             loader: 'babel-loader',
             options: {
-              presets: [
-                '@babel/preset-env', //使用这个预设，会根据浏览器来选择插件转化ES5
-              ],
+              presets: ['@babel/preset-env'],
             },
           },
         ],
@@ -149,10 +150,36 @@ const webpackTask = {
       },
     ],
   },
+  optimization: {
+    minimize: true,
+    splitChunks: {
+      chunks: 'all',
+      minSize: 30000,
+      minChunks: 2,
+      maxAsyncRequests: 10,
+      maxInitialRequests: 5,
+      name: true,
+      automaticNameDelimiter: '~',
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+        },
+        compo: {
+          test: /[\\/]src\/components[\\/]/,
+          priority: -20,
+        },
+        default: {
+          priority: -30,
+          reuseExistingChunk: true,
+        },
+      },
+    },
+  },
   plugins: [
     new HtmlWebpackPlugin({
       namespace: packageConfig.name,
-      title: 'react测试',
+      title: packageConfig.name,
       template: 'src/index.html',
       favicon: 'src/assets/image/logo.png',
       inject: false,
