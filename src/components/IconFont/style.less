@@ -1,8 +1,9 @@
 .myIcon {
-  display: block;
-
+  display: inline-block;
   svg {
-    width: inherit;
-    height: inherit;
+    display: block;
+  }
+  &~* {
+    vertical-align: middle;
   }
 }

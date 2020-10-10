@@ -1,0 +1,14 @@
+{
+  "ManagerUser_Confirm_ResetPwd": "即将重置 [{userName}] 的密码，是否继续？",
+  "ManagerUser_Confirm_DeleteUser": "即将删除用户 [{userName}]，是否继续？",
+  "ManagerUserEdit_Form_UserName_Pattern": "请使用6-15位大小写字母、数字组合。",
+  "ManagerUserEdit_Form_Phone_Pattern": "手机号码不正确。",
+  "ManagerUserEdit_Form_Phone_Exist": "手机号码已存在。",
+  "ManagerUserEdit_Form_UserName_Exist": "用户名已注册。",
+  "ManagerUserEdit_Form_Tel_Pattern": "电话号码格式为 区号-号码。",
+  "ManagerUserEdit_Form_Email_Pattern": "电子邮箱格式不正确。",
+  "ManagerUserEdit_BaseInfo": "用户信息",
+  "ManagerUserEdit_Contact": "联系方式",
+  "ManagerUserEdit_Empty": "没有此用户的信息。",
+  "ManagerUserEdit_GoCreate": "创建用户"
+}

@@ -1,12 +1,18 @@
 import React from 'react';
 import { Select } from 'antd';
 import { GlobalOutlined } from '@ant-design/icons';
+import intl from 'react-intl-universal';
+import { defaultLanguage } from '@locales';
 
 const { Option } = Select;
-export default ({ locales = [], defaultValue, onChange }) => {
+export default ({ locales = [], onChange }) => {
+  let currentLocale = intl.determineLocale({
+    urlLocaleKey: 'lang',
+    cookieLocaleKey: 'lang',
+  });
   return (
     <Select
-      defaultValue={defaultValue}
+      defaultValue={currentLocale || defaultLanguage}
       style={{ width: 120 }}
       onChange={onChange}
     >

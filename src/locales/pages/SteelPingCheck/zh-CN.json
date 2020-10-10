@@ -1,0 +1,11 @@
+{
+  "SteelPingCheck_CylinderSn": "出厂序列号",
+  "SteelPingCheck_CylinderName": "设备名称",
+  "SteelPingCheck_CylinderFsn": "标签序列号",
+  "SteelPingCheck_CylinderModel": "型号",
+  "SteelPingCheck_CylinderManufacturer": "生产厂家",
+  "SteelPingCheck_CylinderDateOfProduction": "生产日期",
+  "SteelPingCheck_CylinderGasType": "气体种类",
+  "SteelPingCheck_CylinderCheckTime": "上次定检日期",
+  "SteelPingCheck_CheckCompany": "上次定检单位"
+}

@@ -1,19 +1,3 @@
-import dynamic from 'dva/dynamic';
-
-/**
- * 页面路由动态组件造
- * @param app
- * @param models
- * @param component
- */
-export const dynamicWrapper = (app, models, component) => {
-  return dynamic({
-    app,
-    models: () => models,
-    component: () => component,
-  });
-};
-
 /**
  * 树状结构数据，平铺展开
  * @param treeData 树顶级对象数组
@@ -27,10 +11,8 @@ export const floorTree = (treeData, childField) => {
   const result = [];
   const loop = (arr, parent = null) => {
     arr.forEach((item) => {
-      result.push({
-        ...item,
-        parent,
-      });
+      item.parent = parent;
+      result.push(item);
       if (item[childField]) {
         loop(item[childField], item);
       }
@@ -38,4 +20,60 @@ export const floorTree = (treeData, childField) => {
   };
   loop(data[childField]);
   return result;
+};
+
+export const floorTreeWithKey = (treeData, childField) => {
+  const data = floorTree(treeData, childField);
+  return data.map((item, index) => {
+    item.key = `key_index_${index}`;
+    return item;
+  });
+};
+
+export const linkItemsWidthField = (
+  items,
+  idName,
+  parentIdName,
+  childFieldName
+) => {
+  const result = [];
+  const cache = [...items];
+  let current = null;
+  while (cache.length) {
+    current = cache.pop();
+    let parent = items.find((item) => item[idName] === current[parentIdName]);
+    if (parent) {
+      parent[childFieldName] = parent[childFieldName] || [];
+      parent[childFieldName].push(current);
+    } else {
+      result.push(current);
+    }
+  }
+
+  return result;
+};
+
+/**
+ * 过滤指定值 的属性，用于清理多余的对象属性
+ * @param target
+ * @param value
+ */
+export const filterAttr = (target, value) => {
+  const newTarget = { ...target };
+  Object.keys(newTarget).forEach((key) => {
+    if (typeof newTarget[key] === 'string') {
+      newTarget[key] = newTarget[key].trim();
+    }
+    if (Object.is(newTarget[key], value)) {
+      delete newTarget[key];
+    }
+  });
+  return newTarget;
+};
+
+export const filterEmpty = (target) => {
+  const filterNull = filterAttr(target, null);
+  const filterUndefined = filterAttr(filterNull, void 0);
+  const filterStr = filterAttr(filterUndefined, '');
+  return filterStr;
 };

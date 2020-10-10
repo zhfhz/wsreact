@@ -1,0 +1,13 @@
+{
+  "ManagerSite_SiteInfo": "站点信息",
+  "ManagerSite_SiteName": "站点名称",
+  "ManagerSite_SiteType": "站点类型",
+  "ManagerSite_DeviceType": "设备规格",
+  "ManagerSite_DeliveryWay": "供应方式",
+  "ManagerSite_SiteArea": "地区",
+  "ManagerSite_SiteAddress": "详细地址",
+  "ManagerSite_SiteLocationLng": "经度",
+  "ManagerSite_SiteLocationLat": "纬度",
+  "ManagerSite_SiteAdmin": "站点管理员",
+  "ManagerSite_SiteTenantName": "所属租户"
+}

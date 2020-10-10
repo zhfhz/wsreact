@@ -1,12 +1,11 @@
 {
-  "demo": "Ping Use Rate",
-  "ping_use_rate": "Utilization rate of gas",
-  "ping_use_rate_line": "Utilization rate of gas cylinder",
-  "ping_use_overview": "Overview of bottle turnover rate",
-  "ping_num_total": "Total bottles",
-  "ping_use_times_unit": "",
-  "ping_num_unit": "",
-  "ping_use_times_total": "Total filling times",
-  "ping_avg_use_times_total": "Average filling times per day",
-  "date": "Date"
+  "PingUseRate": "Ping Use Rate",
+  "PingUseRate_Rate": "Utilization rate of gas",
+  "PingUseRate_LineChart": "Utilization rate of gas cylinder",
+  "PingUseRate_Summary": "Overview of bottle turnover rate",
+  "PingUseRate_PingTotal": "Total bottles",
+  "PingUseRate_TimesUnit": "",
+  "PingUseRate_NumUnit": "",
+  "PingUseRate_TotalTimes": "Total filling times",
+  "PingUseRate_AvgTimes": "Average filling times per day"
 }

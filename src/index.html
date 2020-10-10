@@ -8,16 +8,21 @@
 <body>
     <div id="<%= htmlWebpackPlugin.options.namespace %>"></div>
     <script src="http://apps.bdimg.com/libs/require.js/2.1.11/require.min.js"></script>
+    <script src="http://api.map.baidu.com/api?v=3.0&ak=Cr3I1A8oj5XkNtOE10xpxAGCySK2CwSP"></script>
     <script>
         var ele = document.getElementById('<%= htmlWebpackPlugin.options.namespace %>');
         require.config({
           baseUrl: '.',
           waitSeconds: 0,
           paths: {
+            '../moment': 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min',
+            moment_us: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/locale/en-gb.min',
+            moment_cn: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/locale/zh-cn.min',
+            moment_ru: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/locale/ru.min',
+            echarts: 'https://cdnjs.cloudflare.com/ajax/libs/echarts/4.8.0/echarts.min',
             _dll_vendor: 'assets/js/dll/_dll_vendor',
-            CryptoJs: 'https://cdn.bootcdn.net/ajax/libs/crypto-js/4.0.0/crypto-js.min'
+            CryptoJs: 'https://cdn.bootcdn.net/ajax/libs/crypto-js/4.0.0/crypto-js.min',
           },
-          alias:{},
           shim: {
             _dll_vendor: {
               deps:[],
@@ -25,10 +30,13 @@
             },
           }
         });
+        define('moment', ['../moment', 'moment_us', 'moment_cn', 'moment_ru'], function (moment) {
+            return moment;
+        });
         require(['index'], function (module) {
             ele.innerHTML="";
             module.default(ele);
-        })
+        });
     </script>
 </body>
 </html>

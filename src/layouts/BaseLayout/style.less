@@ -1,4 +1,125 @@
+@NavMenuSelectedBgColor: #C3D6ED;
+@NavMenuSelectedColor: #1074BC;
+@NavMenuItemColor: #343434;
+@NavSubMenuItemColor: rgba(52,52,52,0.5);
+@MenuIconColor:#1074BC;
+
 .BaseLayout {
+  .sider {
+    :global {
+      .ziot-menu-inline .ziot-menu-item, .ziot-menu-inline .ziot-menu-submenu-title, .ziot-menu-vertical-left .ziot-menu-item, .ziot-menu-vertical-left .ziot-menu-submenu-title, .ziot-menu-vertical-right .ziot-menu-item, .ziot-menu-vertical-right .ziot-menu-submenu-title, .ziot-menu-vertical .ziot-menu-item, .ziot-menu-vertical .ziot-menu-submenu-title {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+      .ziot-menu-inline .ziot-menu-item:not(:last-child), .ziot-menu-vertical-left .ziot-menu-item:not(:last-child), .ziot-menu-vertical-right .ziot-menu-item:not(:last-child), .ziot-menu-vertical .ziot-menu-item:not(:last-child) {
+        margin-bottom: 0;
+      }
+      .ziot-menu-submenu {
+        &>.ziot-menu {
+          background: transparent;
+        }
+      }
+      .ziot-menu-item:after {
+        border-right: 0 none !important;
+      }
+      .anticon {
+        color: @MenuIconColor;
+        vertical-align: middle;
+      }
+      .ziot-menu-submenu-title {
+        color: @NavMenuItemColor;
+        &：hover {
+          color: @MenuIconColor;
+        }
+        .anticon {
+          color: @MenuIconColor;
+          vertical-align: middle;
+        }
+      }
+      .ziot-menu-submenu {
+        .ziot-menu-item a {
+          color: @NavSubMenuItemColor;
+        }
+      }
+      .ziot-menu-submenu-title:hover,
+      .ziot-menu-item:hover {
+        background: @NavMenuSelectedBgColor;
+      }
+      .ziot-menu-item-active,
+      .ziot-menu-item:hover,
+      .ziot-menu-submenu-active,
+      .ziot-menu-submenu-title:hover,
+      .ziot-menu:not(.ziot-menu-inline) {
+        .ziot-menu-submenu-open {
+          color: @MenuIconColor;
+        }
+        color: @MenuIconColor;
+      }
+      .ziot-menu-submenu-selected {
+        .ziot-menu-submenu-title {
+          background: @NavMenuSelectedBgColor;
+        }
+        .ziot-menu-item-selected {
+          color: @MenuIconColor;
+        }
+      }
+      .ziot-menu-item-selected, .ziot-menu-item-selected a, .ziot-menu-item-selected a:hover , .ziot-menu-item a:hover{
+        color: inherit;
+      }
+      .ziot-menu-submenu {
+        &>.ziot-menu-submenu-title {
+          .ziot-menu-submenu-arrow {
+            transform: rotate(0deg);
+            transform-origin: left center;
+            &:before {
+              background-image: linear-gradient(90deg,#8b8e99,#8b8e99)!important;
+              transform: rotate(45deg) translateX(-2px)!important;
+            }
+            &:after {
+              background-image: linear-gradient(90deg,#8b8e99,#8b8e99)!important;
+              transform: rotate(-45deg) translateX(-2px)!important;
+            }
+          }
+        }
+
+      }
+      .ziot-menu-submenu.ziot-menu-submenu-open {
+        &>.ziot-menu-submenu-title {
+          .ziot-menu-submenu-arrow {
+            transform: rotate(90deg);
+            &:before {
+              background-image: linear-gradient(90deg,#8b8e99,#8b8e99)!important;
+              transform: rotate(45deg) translateX(-2px)!important;
+            }
+            &:after {
+              background-image: linear-gradient(90deg,#8b8e99,#8b8e99)!important;
+              transform: rotate(-45deg) translateX(-2px)!important;
+            }
+          }
+        }
+      }
+    }
+  }
+  .breadcrumbContainer {
+    padding: 4px 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #eaeff0;
+    margin: 0 -20px 20px;
+    &:empty {
+      display: none;
+    }
+  }
+  .badgeSmall {
+    :global {
+      .ziot-badge-count {
+        min-width: 14px;
+        line-height: 14px;
+        height: 14px;
+        border-radius: 7px;
+        padding: 0 1px;
+      }
+    }
+  }
   .logo {
     font-size: 20px;
     line-height: @layout-header-height;
@@ -82,13 +203,25 @@
           opacity: .4;
         }
       }
+      .anticon>svg {
+        fill: #fff!important;
+      }
+      .ziot-avatar {
+        background: transparent;
+        border:1px solid transparent;
+        cursor: pointer;
+        &:hover {
+          border:1px solid #fff;
+        }
+      }
       .ziot-select-single:not(.ziot-select-customize-input) {
         .ziot-select-selector {
           .formElementStyle;
         }
         &.ziot-select-open {
-          .ziot-select-selector {
-            opacity: 0.4!important;
+          opacity: 0.4 !important;
+          .anticon>svg {
+            fill: #fff!important;
           }
         }
       }
@@ -102,13 +235,13 @@
       background-color: transparent;
     }
     .@{ant-prefix}-menu:not(.@{ant-prefix}-menu-horizontal) .@{ant-prefix}-menu-item-selected {
-      background-color: #C3D6ED;
+      background-color: @NavMenuSelectedBgColor;
     }
     .@{ant-prefix}-menu-inline-collapsed>.@{ant-prefix}-menu-item,
     .@{ant-prefix}-menu-inline-collapsed>.@{ant-prefix}-menu-item-group>.@{ant-prefix}-menu-item-group-list>.core-menu-item,
     .@{ant-prefix}-menu-inline-collapsed>.@{ant-prefix}-menu-item-group>.@{ant-prefix}-menu-item-group-list>.core-menu-submenu>.@{ant-prefix}-menu-submenu-title,
     .@{ant-prefix}-menu-inline-collapsed>.@{ant-prefix}-menu-submenu>.@{ant-prefix}-menu-submenu-title {
-      padding: 0 22px;
+      padding: 0 19px;
     }
     .@{ant-prefix}-layout-footer {
       height: 60px;

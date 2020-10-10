@@ -1,0 +1,13 @@
+{
+  "DewarPingCheck_EquipmentName": "设备名称",
+  "DewarPingCheck_Fsn": "序列号",
+  "DewarPingCheck_ManufactureDate": "出厂日期",
+  "DewarPingCheck_Model": "型号",
+  "DewarPingCheck_Manufacture": "厂家",
+  "DewarPingCheck_CheckDate": "上次瓶检日期",
+  "DewarPingCheck_LastCheckCompany": "上次定检单位",
+  "DewarPingCheck_CurrentSite": "当前位置",
+  "DewarPingCheck_SiteId": "站点ID",
+  "DewarPingCheck_SiteName": "站名",
+  "DewarPingCheck_UseTime": "使用时间"
+}

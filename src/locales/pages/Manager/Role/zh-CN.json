@@ -1,0 +1,10 @@
+{
+  "ManagerRole_RoleId": "角色编号",
+  "ManagerRole_RoleName": "角色名称",
+  "ManagerRole_RoleAvailable": "状态",
+  "ManagerRole_RoleDesc": "描述",
+  "ManagerRole_RoleCreateTime": "创建时间",
+  "ManagerRole_RoleConfig": "权限配置",
+  "ManagerRole_RoleInfo": "角色信息",
+  "ManagerRole_RoleName_Pattern": "请使用1-50位大小写字母、数字组合。"
+}

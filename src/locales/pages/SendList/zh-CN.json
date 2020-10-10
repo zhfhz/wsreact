@@ -1,0 +1,10 @@
+{
+  "SendList_TimePeriod": "配送时间区间",
+  "SendList_OrderId": "配送单号",
+  "SendList_Status": "配送状态",
+  "SendList_CreateUser": "创建人",
+  "SendList_CreateTime": "创建时间",
+  "SendList_UnPublish": "未发布",
+  "SendList_Sending": "配送中",
+  "SendList_Completed": "已完成"
+}

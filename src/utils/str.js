@@ -1,4 +1,5 @@
 import CryptoJS from 'crypto-js';
+import { history } from '@router/index';
 
 export const AES = CryptoJS.AES;
 
@@ -91,4 +92,47 @@ export const GenSeqNo = () => {
   const numval = generateRand(1, number);
   const markval = generateRand(1, mark);
   return lettval + numval + markval + range;
+};
+
+/**
+ * 将toJSON字符串转为json
+ * @param hashSearch
+ * @returns {{toJSON: (function(): {})}}
+ * @constructor
+ */
+export const HashSearchParams = (hashSearch) => ({
+  toJSON: () => {
+    const result = {};
+    if (hashSearch) {
+      const search = new URLSearchParams(hashSearch);
+      const iterator = search.keys();
+      let item = {};
+      do {
+        item = iterator.next();
+        if (item.value) {
+          result[item.value] = search.get(item.value);
+        }
+      } while (!item.done);
+    }
+    return result;
+  },
+});
+
+export const fixedPaginationBug = (currentTotal, newTotal) => {
+  const {
+    location: { search, pathname },
+  } = history;
+  const query = HashSearchParams(search).toJSON();
+  if (query.pageNum && currentTotal === 0 && newTotal === null) {
+    const newSearch = new URLSearchParams({
+      ...query,
+      pageNum: 1,
+    }).toString();
+    history.push({
+      pathname,
+      search: newSearch,
+    });
+    return false;
+  }
+  return true;
 };

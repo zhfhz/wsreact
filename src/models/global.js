@@ -1,39 +1,24 @@
 import menus from '@/config/menus.config';
 import { LOCAL_STORAGE_KEYS, SESSION_STORAGE_KEYS } from '@/config/constants';
 import { history } from '@router/index';
-import { logout } from '@services/global';
-import { isLogin } from '@components/Permission';
+import { logout, getTenants } from '@services/global';
+import { isLogin } from '@utils/permission';
 import moment from 'moment';
 import { encrypt, GenSeqNo16 } from '@utils/str';
+import { session } from '@utils/session';
 import { Socket } from '@utils/http';
-
-const SUPPOER_LOCALES = [
-  {
-    name: 'Lang',
-    value: '',
-  },
-  {
-    name: 'English',
-    value: 'en-US',
-  },
-  {
-    name: '繁體中文',
-    value: 'zh-TW',
-  },
-  {
-    name: '简体中文',
-    value: 'zh-CN',
-  },
-];
+import { languages } from '@locales';
 
 export default {
   namespace: 'global',
   state: {
-    siderCollapsed: localStorage.getItem(
-      LOCAL_STORAGE_KEYS.ASIDE_NAV_COLLAPSED
+    siderCollapsed: JSON.parse(
+      localStorage.getItem(LOCAL_STORAGE_KEYS.ASIDE_NAV_COLLAPSED) || 'false'
     ),
+    tenants: [],
+    selectTenant: null,
     navMenus: menus,
-    locales: SUPPOER_LOCALES,
+    locales: languages,
     socketService: null,
     endId: GenSeqNo16(),
   },
@@ -42,7 +27,7 @@ export default {
       const socketService = yield select((state) => state.global.socketService);
       const { ok } = yield call(logout);
       if (ok) {
-        sessionStorage.clear();
+        session.clear();
         history.replace('/');
         // 关闭socket
         if (socketService.clearHeartBeat) {
@@ -59,8 +44,37 @@ export default {
         });
       }
     },
+    *getTenants(_, { call, put }) {
+      // 此函数在登录成功后调用，
+      const UserInfo = session.get(SESSION_STORAGE_KEYS.USER_INFO);
+      if (UserInfo.user.userName === 'root') {
+        const { ok, data } = yield call(getTenants);
+        if (ok) {
+          yield put({
+            type: 'save',
+            payload: {
+              tenants: data,
+            },
+          });
+        }
+        return;
+      }
+      yield put({
+        type: 'save',
+        payload: {
+          tenants: [UserInfo.tenant],
+        },
+      });
+    },
   },
   reducers: {
+    setSelectTenant(state, { payload }) {
+      session.set(SESSION_STORAGE_KEYS.TENANT_ID, payload);
+      return {
+        ...state,
+        selectTenant: payload,
+      };
+    },
     siderTrigger(state) {
       const { siderCollapsed } = state;
       localStorage.setItem(
@@ -78,7 +92,7 @@ export default {
       );
       return state;
     },
-    save(state, payload) {
+    save(state, { payload }) {
       return {
         ...state,
         ...payload,
@@ -91,7 +105,7 @@ export default {
       // 登录后连接socket, 否则不创建socket
       if (isLogin()) {
         const socketService = new Socket(
-          sessionStorage.getItem(SESSION_STORAGE_KEYS.SOCKET_URL)
+          session.get(SESSION_STORAGE_KEYS.SOCKET_URL)
         );
         const newState = {
           ...state,
@@ -100,11 +114,9 @@ export default {
 
         const buildHeartBeatMessage = () => {
           const now = moment().format('yyyy-MM-dd HH:mm:ss');
-          const tenantId = sessionStorage.getItem('tenantId');
-          const token = sessionStorage.getItem('token');
-          const userName = sessionStorage.getItem(
-            SESSION_STORAGE_KEYS.USER_NAME
-          );
+          const tenantId = session.get(SESSION_STORAGE_KEYS.TENANT_ID);
+          const token = session.get(SESSION_STORAGE_KEYS.TOKEN);
+          const userName = session.get(SESSION_STORAGE_KEYS.USER_NAME);
           const heartBeanMessage = {
             tenantId: tenantId,
             userName: userName,
@@ -139,11 +151,9 @@ export default {
         };
         const buildMessage = (subMessages) => {
           const now = moment().format('yyyy-MM-dd HH:mm:ss');
-          const tenantId = sessionStorage.getItem('tenantId');
-          const token = sessionStorage.getItem('token');
-          const userName = sessionStorage.getItem(
-            SESSION_STORAGE_KEYS.USER_NAME
-          );
+          const tenantId = session.get(SESSION_STORAGE_KEYS.TENANT_ID);
+          const token = session.get(SESSION_STORAGE_KEYS.TOKEN);
+          const userName = session.get(SESSION_STORAGE_KEYS.USER_NAME);
 
           const jsonMessage = {
             sender: userName,
@@ -173,9 +183,7 @@ export default {
 
         socketService.on('open', () => {
           // 注册监听
-          const userName = sessionStorage.getItem(
-            SESSION_STORAGE_KEYS.USER_NAME
-          );
+          const userName = session.get(SESSION_STORAGE_KEYS.USER_NAME);
           const topic = {};
           topic[userName] = [
             'LINK.DEVICE.ALARM.MESSAGE',

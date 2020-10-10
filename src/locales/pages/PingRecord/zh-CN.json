@@ -1,0 +1,9 @@
+{
+  "PingRecord_SiteName": "站点名称",
+  "PingRecord_PingSn": "瓶序列号",
+  "PingRecord_InOrOut": "动作（进站、出站）",
+  "PingRecord_Time": "时间",
+  "PingRecord_Type": "方式（扫描、网关）",
+  "PingRecord_PingLevel": "液位",
+  "PingRecord_OrderId": "单号"
+}

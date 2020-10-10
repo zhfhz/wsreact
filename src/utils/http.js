@@ -1,18 +1,25 @@
 import http from 'axios';
+import { message } from 'antd';
+import intl from 'react-intl-universal';
 import { encrypt, HmacSHA256 } from '@utils/str';
+import { session } from '@utils/session';
 import { history } from '@router';
 import { COMMON_KEYS, SESSION_STORAGE_KEYS } from '@/config/constants';
 
 const { APP_ID } = COMMON_KEYS;
 const { APP_SECRET } = COMMON_KEYS;
+const { CancelToken } = http;
+
+let cancelRequest = () => {};
+let unListenCancelRequest = () => {};
 
 function setReqHeader(config) {
   const appId = APP_ID;
   const time = new Date().getTime().toString();
   const random = Math.random().toString();
-  const userName = sessionStorage.getItem(SESSION_STORAGE_KEYS.USER_NAME) || '';
-  const tenantId = sessionStorage.getItem(SESSION_STORAGE_KEYS.TENANT_ID) || '';
-  const token = sessionStorage.getItem(SESSION_STORAGE_KEYS.TOKEN) || '';
+  const userName = session.get(SESSION_STORAGE_KEYS.USER_NAME) || '';
+  const tenantId = session.get(SESSION_STORAGE_KEYS.TENANT_ID) || '';
+  const token = session.get(SESSION_STORAGE_KEYS.TOKEN) || '';
   const sign = HmacSHA256(
     appId + time + random + userName + token,
     APP_SECRET
@@ -42,17 +49,17 @@ function setReqHeader(config) {
     sign,
     tenantId,
   };
-  sessionStorage.setItem(
-    SESSION_STORAGE_KEYS.TOKEN_INFO,
-    JSON.stringify(tokenInfo)
-  );
-
+  unListenCancelRequest = history.listen(function (e) {
+    cancelRequest('request aborted');
+  });
+  session.set(SESSION_STORAGE_KEYS.TOKEN_INFO, tokenInfo);
+  config.cancelToken = new CancelToken((cancel) => {
+    cancelRequest = cancel;
+  });
   return config;
 }
 
-const DEV_URL = 'http://web.zillinx.com:18080/';
-const PROD_URL = 'http://web.zillinx.com:8080/';
-const baseURL = process.env.NODE_ENV === 'production' ? PROD_URL : DEV_URL;
+const baseURL = window.location.origin;
 const instance = http.create({
   baseURL,
 });
@@ -63,30 +70,38 @@ instance.interceptors.request.use(setReqHeader, (err) => {
 
 instance.interceptors.response.use(
   (response) => {
-    if (response.data.result !== null && response.data.result.code === 401) {
-      console.log('会话超时!');
-      sessionStorage.removeItem(SESSION_STORAGE_KEYS.TOKEN);
-      sessionStorage.removeItem(SESSION_STORAGE_KEYS.USER_NAME);
-      sessionStorage.removeItem(SESSION_STORAGE_KEYS.TENANT_ID);
-      sessionStorage.removeItem(SESSION_STORAGE_KEYS.TOKEN_INFO);
-      history.push({
-        pathname: '/sign/in',
-      });
+    unListenCancelRequest();
+    if (response.data.result) {
+      if (response.data.result.code === 401) {
+        message.error(intl.get('SessionTimeout'));
+        session.clear();
+        history.push({
+          pathname: '/sign/in',
+        });
+        return response.data;
+      } else if (response.data.result.code === 0) {
+        return {
+          ok: true,
+          data: response.data,
+        };
+      } else {
+        console.error(intl.get('RequestFail'), response.data.result.msg);
+        return {
+          ok: false,
+          data: response.data,
+        };
+      }
+    } else {
       return response.data;
     }
-    if (response.data.result.code === 0) {
-      return {
-        ok: true,
-        data: response.data,
-      };
-    }
-    return {
-      ok: false,
-      data: response.data,
-    };
   },
   // 接口错误状态处理，也就是说无响应时的处理
   (err) => {
+    unListenCancelRequest();
+    if (http.isCancel(err)) {
+      return Promise.resolve(err);
+    }
+    message.error(intl.get('NetworkErr'));
     if (err.status === -1) {
       //
     } else if (err.status === 401 || err.status === 403) {
@@ -99,8 +114,56 @@ instance.interceptors.response.use(
     return Promise.reject(err);
   }
 );
-export const { get } = instance;
-export const { post } = instance;
+
+export const { get, post } = instance;
+
+export const uploadFile = (url, params) => {
+  let formData = params;
+  if (!(params instanceof FormData)) {
+    formData = new FormData();
+    Object.keys(params).forEach((itemKey) => {
+      formData.append(itemKey, params[itemKey]);
+    });
+  }
+  const promise = post(url, formData, {
+    headers: {
+      'Content-Type': void 0,
+    },
+  });
+  return promise;
+};
+/**
+ * 下载文件
+ * @param url
+ * @param params
+ * @returns {{save(*, *=): Promise<void>}|Promise<AxiosResponse<any>>}
+ */
+export const downloadFile = (url, params) => {
+  const promise = post(url, params, {
+    responseType: 'arraybuffer',
+  });
+  return {
+    save(filename, acceptType) {
+      return promise
+        .then((response) => {
+          const objectUrl = URL.createObjectURL(
+            new Blob([response], { type: acceptType })
+          );
+          let link = document.createElement('a');
+          link.href = objectUrl;
+          link.download = filename;
+          link.click();
+          link.remove();
+          URL.revokeObjectURL(objectUrl);
+        })
+        .catch((err) => {
+          const enc = new TextDecoder('utf-8');
+          const res = JSON.parse(enc.decode(new Uint8Array(err.data))); //转化成json对象
+          console.log(res);
+        });
+    },
+  };
+};
 
 export const Socket = function (url, protocols, autoConnect) {
   let webSocket = null;
@@ -109,37 +172,31 @@ export const Socket = function (url, protocols, autoConnect) {
   let userClose = false;
   let keepAliveTime = null;
   this.connect = () => {
-    try {
-      userClose = false;
-      webSocket = new WebSocket(url, protocols);
-      webSocket.onopen = () => {
-        this.connected = true;
-        console.log('websocket connected!');
-      };
-      webSocket.onclose = () => {
-        this.connected = false;
-        console.log('websocket connected!');
-        if (autoConnect && !userClose) {
-          setTimeout(() => this.reconnect(), 5000);
-        }
-      };
-      webSocket.onmessage = (event) => {
-        console.log('socket << ', event.data);
-      };
-      webSocket.onerror = (error) => {
-        console.log('websocket error', error);
-        this.connected = false;
-        errorCount++;
-        if (errorCount > 20) {
-          return;
-        }
-        setTimeout(() => this.reconnect(), 1000);
-      };
-    } catch (e) {
-      console.error(
-        'current browser is not support Websocket. Parts functions of the site will dead.'
-      );
-    }
+    userClose = false;
+    webSocket = new WebSocket(url, protocols);
+    webSocket.onopen = () => {
+      this.connected = true;
+      console.log('websocket connected!');
+    };
+    webSocket.onclose = () => {
+      this.connected = false;
+      console.log('websocket connected!');
+      if (autoConnect && !userClose) {
+        setTimeout(() => this.reconnect(), 5000);
+      }
+    };
+    webSocket.onmessage = (event) => {
+      console.log('socket << ', event.data);
+    };
+    webSocket.onerror = (error) => {
+      console.log('websocket error', error);
+      this.connected = false;
+      errorCount++;
+      if (errorCount > 20) {
+        return;
+      }
+      setTimeout(() => this.reconnect(), 1000);
+    };
   };
 
   this.close = () => {

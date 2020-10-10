@@ -1,0 +1,16 @@
+{
+  "Report_DeliveryTimes": "Delivery Times",
+  "Report_AvgAmountOfDelivery": "AVG Amount Of Delivery",
+  "Report_Table_Index": "Index",
+  "Report_Table_SiteName": "Site Name",
+  "Report_Table_DeviceSpec": "Specification",
+  "Report_Table_Way": "Mode of supply",
+  "Report_Table_AvgOfGas": "Avg daily gas consumption",
+  "Report_Table_MaxOfGas": "Maximum instantaneous flow",
+  "Report_Table_TotalGas": "Delivery volume",
+  "Report_Table_LeftGas": "Outgoing gas volume",
+  "Report_Table_SupplyGap": "GAP",
+  "Report_Table_AvgPingOfUse": "Amount of Delivery bottles",
+  "Report_Table_AvgPingOfStore": "Average in station storage",
+  "Report_Table_Remarks": "Remarks"
+}

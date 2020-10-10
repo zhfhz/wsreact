@@ -20,6 +20,8 @@ export const controller = (...items) => (Ctrl) => ({
         });
       }
     }
+    WrapView.getDerivedStateFromProps = Ctrl.getDerivedStateFromProps;
+    WrapView.getSnapshotBeforeUpdate = Ctrl.getSnapshotBeforeUpdate;
     // 复制View方法
     Object.getOwnPropertyNames(View.prototype).forEach((key) => {
       if (key !== 'constructor') {

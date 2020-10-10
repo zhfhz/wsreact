@@ -1,0 +1,16 @@
+{
+  "Report_DeliveryTimes": "总配送车次",
+  "Report_AvgAmountOfDelivery": "车均配送量",
+  "Report_Table_Index": "序号",
+  "Report_Table_SiteName": "用户",
+  "Report_Table_DeviceSpec": "设备规格",
+  "Report_Table_Way": "供应方式",
+  "Report_Table_AvgOfGas": "平均日用气量",
+  "Report_Table_MaxOfGas": "最大瞬时流量",
+  "Report_Table_TotalGas": "配送气量",
+  "Report_Table_LeftGas": "出站气量",
+  "Report_Table_SupplyGap": "供销差",
+  "Report_Table_AvgPingOfUse": "平均每日配送瓶",
+  "Report_Table_AvgPingOfStore": "平均站内储瓶",
+  "Report_Table_Remarks": "备注"
+}

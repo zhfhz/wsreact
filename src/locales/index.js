@@ -1,5 +1,5 @@
 import antdZhCN from 'antd/es/locale/zh_CN';
-import antdZhTW from 'antd/es/locale/zh_TW';
+import antdRU from 'antd/es/locale/ru_RU';
 import antdEnUS from 'antd/es/locale/en_US';
 import moment from 'moment';
 
@@ -22,10 +22,7 @@ files
     };
   });
 locales.antd['en-US'] = antdEnUS;
-locales.moment['en-US'] = () =>
-  require.ensure(['moment', 'moment/locale/en-gb'], (require) => {
-    require('moment').locale('en-gb');
-  });
+locales.moment['en-US'] = () => moment.locale('en-gb');
 
 // --------------------------------------------------------------
 // 处理简体中文
@@ -40,27 +37,38 @@ files
     };
   });
 locales.antd['zh-CN'] = antdZhCN;
-locales.moment['zh-CN'] = () =>
-  require.ensure(['moment', 'moment/locale/zh-cn'], (require) => {
-    require('moment').locale('zh-cn');
-  });
+locales.moment['zh-CN'] = () => moment.locale('zh-cn');
 
 // --------------------------------------------------------------
-// 处理繁体中文
-files = require.context('./', true, /zh-TW\.json$/);
+// 处理俄语
+files = require.context('./', true, /ru\.json$/);
 files
   .keys()
   .map((key) => files(key))
   .forEach((item) => {
-    locales.site['zh-TW'] = {
-      ...locales.site['zh-TW'],
+    locales.site['ru'] = {
+      ...locales.site['ru'],
       ...item,
     };
   });
-locales.antd['zh-TW'] = antdZhTW;
-locales.moment['zh-TW'] = () =>
-  require.ensure(['moment', 'moment/locale/zh-tw'], (require) => {
-    require('moment').locale('zh-tw');
-  });
+locales.antd['ru'] = antdRU;
+locales.moment['ru'] = () => moment.locale('ru');
+
+export const defaultLanguage = 'en-US';
+
+export const languages = [
+  {
+    name: 'English',
+    value: 'en-US',
+  },
+  {
+    name: 'Русский язык',
+    value: 'ru',
+  },
+  {
+    name: '简体中文',
+    value: 'zh-CN',
+  },
+];
 
 export default locales;

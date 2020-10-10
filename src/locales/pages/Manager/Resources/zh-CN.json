@@ -1,0 +1,13 @@
+{
+  "ManagerResources_MoveToRoot": "移动到顶点",
+  "ManagerResources_MoveToRow": "选择",
+  "ManagerResources_ResCode": "编码",
+  "ManagerResources_ResName": "名称",
+  "ManagerResources_ResEnName": "英文名",
+  "ManagerResources_ResURL": "URL",
+  "ManagerResources_ResDesc": "描述",
+  "ManagerResources_AddChildNode": "新增子节点",
+  "ManagerResources_ResCode_Required": "编码是必填项",
+  "ManagerResources_ResName_Required": "名称是必填项",
+  "ManagerResources_ResEnName_Required": "英文名是必填项"
+}

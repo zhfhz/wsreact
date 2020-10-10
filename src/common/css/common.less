@@ -1,8 +1,19 @@
 /** 覆盖样式变量 **/
-html, body {
-  font-size: 14px;
-  height: 100%;
-}
-.@{ant-prefix}-btn {
-  border-radius: 4px;
+:global {
+  html, body {
+    font-size: 14px;
+    height: 100%;
+  }
+  #@{ant-prefix} {
+    height: 100%;
+    &>.@{ant-prefix}-layout:only-child {
+      height: 100%;
+    }
+  }
+  .@{ant-prefix}-btn {
+    border-radius: 4px;
+  }
+  .@{ant-prefix}-card-head-title {
+    line-height: @card-head-height;
+  }
 }

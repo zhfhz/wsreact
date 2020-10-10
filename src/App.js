@@ -1,7 +1,7 @@
 import React from 'react';
 import intl from 'react-intl-universal';
-import locales from '@locales';
-import { ConfigProvider } from 'antd';
+import locales, { defaultLanguage } from '@locales';
+import { ConfigProvider, message, Modal } from 'antd';
 import { Router } from 'dva/router';
 import MyRouter, { saveHistory } from '@router';
 import routes from '@routes';
@@ -10,6 +10,11 @@ import { connect } from 'dva';
 const createHashHistory = require('history').createHashHistory;
 
 const packageConfig = require('../package.json');
+
+message.config({ prefixCls: `${packageConfig.name}-message` });
+Modal.config({
+  rootPrefixCls: `${packageConfig.name}`,
+});
 
 export default
 @connect(null, {
@@ -41,7 +46,7 @@ class App extends React.Component {
       cookieLocaleKey: 'lang',
     });
     if (!locales.site[currentLocale]) {
-      currentLocale = 'zh-CN';
+      currentLocale = defaultLanguage;
       window.location.search = `?lang=${currentLocale}`;
       return;
     }

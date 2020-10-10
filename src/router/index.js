@@ -1,24 +1,17 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'dva/router';
 import { Spin } from 'antd';
-import dynamic from 'dva/dynamic';
 import NotFound from '@pages/NotFound';
 
 export let history = null;
 
 export const saveHistory = (historyInstance) => {
   history = historyInstance;
-  // 第一次加载页面的 路由不变的话不会执行路由监听函数
-  history.isFirstPage = true;
-  const unListen = history.listen(function () {
-    delete history.isFirstPage;
-    unListen();
+  history.records = [history.location];
+  const unListen = history.listen(function (e) {
+    history.records.push(e);
   });
 };
-
-dynamic.setDefaultLoadingComponent(() => (
-  <Spin indicator={<div>Loading...</div>} />
-));
 
 function MyRouter(props) {
   const { routes = [], basename = '' } = props;

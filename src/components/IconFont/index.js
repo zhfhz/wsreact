@@ -1,19 +1,26 @@
 import React from 'react';
-import { createFromIconfontCN } from '@ant-design/icons';
+import createFromIconfontCN from '@ant-design/icons/es/components/IconFont';
 import styles from './style.less';
 
-const MyIcon = createFromIconfontCN({
-  scriptUrl: [
-    '//at.alicdn.com/t/font_1465484_5gdfkkkr7yw.js',
-    '//at.alicdn.com/t/font_720095_93c1qu2kdtd.js',
-  ],
-});
-
-export default ({ fill, width, height, type, ...restProps }) => {
-  const iconFont = (
-    <MyIcon {...restProps} style={{ width, height }} className={styles.myIcon}>
-      <use xlinkHref={'#'.concat(type)} fill={fill} />
-    </MyIcon>
+export default ({ width, height = width, type, viewBox = '' }) => {
+  if (!type) {
+    return null;
+  }
+  const MyIcon = createFromIconfontCN({
+    extraCommonProps: {
+      viewBox: `0 0 ${width} ${height}`,
+    },
+    scriptUrl: ['//at.alicdn.com/t/font_1465484_5gdfkkkr7yw.js'],
+  });
+  return (
+    <MyIcon
+      className={styles.myIcon}
+      style={{
+        width,
+        height,
+        fontSize: height,
+      }}
+      type={type}
+    />
   );
-  return iconFont;
 };

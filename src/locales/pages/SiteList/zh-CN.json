@@ -1,0 +1,12 @@
+{
+  "SiteList_siteType": "站点类型",
+  "SiteList_AllSiteType": "全部",
+  "SiteList_BusinessSite":"运营站",
+  "SiteList_FillGasSite": "充装站",
+  "SiteList_IndustrySite": "工业站",
+  "SiteList_Table_siteName": "站点名称",
+  "SiteList_Table_remainingGasUsed": "剩余气量",
+  "SiteList_Table_estimatedDays": "预计天数",
+  "SiteList_Table_nowWeekGasUsed": "本周累计",
+  "SiteList_Table_lastWeekGasUsed": "下周预计"
+}
